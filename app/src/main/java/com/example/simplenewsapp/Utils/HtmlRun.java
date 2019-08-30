@@ -4,21 +4,28 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+import com.example.myapplication.HtmlService;
 public class HtmlRun implements Runnable {
-    private String html;
-    private String url;
+    String html;
+    String url;
 
-    private ArrayList<String> title;
-    private ArrayList<String> content;
-    public HtmlRun(ArrayList<String> title, ArrayList<String> content, String url) {
+    ArrayList<String> title;
+    ArrayList<String> content;
+    ArrayList<String> time;
+    ArrayList<String> author;
+    ArrayList<String> pic_url;
+    public HtmlRun(ArrayList<String> title, ArrayList<String> content, ArrayList<String> time, ArrayList<String> author, ArrayList<String> pic_url, String url) {
+
         this.url = url;
         this.title = title;
         this.content = content;
+        this.time = time;
+        this.author = author;
+        this.pic_url = pic_url;
     }
     public void run() {
 
-        //final TextView tmp = (TextView) findViewById(R.id.text123);
+
         try {
             html = HtmlService.getHtml(url);
             Log.i("jsonData",html);
@@ -26,6 +33,6 @@ public class HtmlRun implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        HtmlService.parseDiffJson(html, title, content);
+        com.example.myapplication.HtmlService.parseDiffJson(html, title, content, time, author, pic_url);
     }
 }

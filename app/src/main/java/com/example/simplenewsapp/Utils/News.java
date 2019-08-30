@@ -21,11 +21,12 @@ public class News {
         this.date = date;
     }
 
-    public News(String news_title,String news_content, String date)
+    public News(String news_title,String news_content, String date, String author)
     {
         this.news_title = news_title;
         this.content = news_content;
         this.date = date;
+        this.author = author;
     }
 
     public String get_title()

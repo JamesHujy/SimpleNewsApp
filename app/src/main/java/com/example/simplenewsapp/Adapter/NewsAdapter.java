@@ -35,7 +35,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.newsImg = view.findViewById(R.id.news_item_img);
+            //viewHolder.newsImg = view.findViewById(R.id.news_item_img);
             viewHolder.newsTitle = view.findViewById(R.id.news_item_title);
             viewHolder.newsDelete = view.findViewById(R.id.delete_item);
             viewHolder.newsAuthor = view.findViewById(R.id.news_item_author);

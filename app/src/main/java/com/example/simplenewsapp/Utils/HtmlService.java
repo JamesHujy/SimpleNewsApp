@@ -1,4 +1,4 @@
-package com.example.simplenewsapp.Utils;
+package com.example.myapplication;
 
 import android.util.Log;
 
@@ -45,7 +45,8 @@ public class HtmlService {
         inStream.close();
         return outStream.toByteArray();
     }
-    public static void parseDiffJson(String json, ArrayList<String> titlelist, ArrayList<String> contentlist) {
+    public static void parseDiffJson(String json, ArrayList<String> titlelist, ArrayList<String> contentlist, ArrayList<String> timelist, ArrayList<String> authorlist, ArrayList<String> pic_urllist) {
+        //NewsDataBaseHelper dbHelper = new NewsDataBaseHelper(, "NewsDB,db", null, 1);
         synchronized(titlelist) {
             try {
                 JSONObject news = new JSONObject(json);
@@ -64,9 +65,11 @@ public class HtmlService {
                     String image = jsonObject.getString("image");
                     Log.e("image", image);
 
+                    pic_urllist.add(image);
+
                     String publishTime = jsonObject.getString("publishTime");
                     Log.e("publishTime", publishTime);
-
+                    timelist.add(publishTime);
                     JSONArray keyWords = jsonObject.getJSONArray("keywords");
                     for (int j = 0; j < keyWords.length(); j++) {
                         JSONObject keyWord = (JSONObject) keyWords.get(j);
@@ -85,13 +88,16 @@ public class HtmlService {
                     titlelist.add(title);
 
                     JSONArray when = jsonObject.getJSONArray("when");
+
                     for (int j = 0; j < when.length(); j++) {
                         JSONObject keyWord = (JSONObject) when.get(j);
                         String score = keyWord.getString("score");
                         Log.e("score", score);
                         String word = keyWord.getString("word");
                         Log.e("word", word);
+
                     }
+
                     String content = jsonObject.getString("content");
                     Log.e("content", content);
 
@@ -122,6 +128,7 @@ public class HtmlService {
                     }
 
                     String publisher = jsonObject.getString("publisher");
+                    authorlist.add(publisher);
                     JSONArray locations = jsonObject.getJSONArray("locations");
                     for (int j = 0; j < locations.length(); j++) {
                         JSONObject location = (JSONObject) locations.get(j);
