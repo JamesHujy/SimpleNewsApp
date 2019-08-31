@@ -42,7 +42,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
             String content = "顾小姐真好看";
             String date = "2019.6.30";
             String author = "大白";
-            News news = new News(title, content, date, author);
+            News news = new News(title, content, date, author, "[]");
             newsList.add(news);
         }
 

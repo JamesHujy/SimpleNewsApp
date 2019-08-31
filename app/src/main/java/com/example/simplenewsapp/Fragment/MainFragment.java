@@ -1,5 +1,6 @@
 package com.example.simplenewsapp.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,36 +13,37 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.simplenewsapp.Activity.ChannelChooseActivity;
 import com.example.simplenewsapp.Adapter.FragmentAdapter;
 import com.example.simplenewsapp.R;
 import com.google.android.material.tabs.TabLayout;
 
+import com.cheng.channel.Channel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment
+public class MainFragment extends Fragment implements View.OnClickListener
 {
     private View view;
 
     private TabLayout tabLayout;
     private HorizontalScrollView scrollView;
     private ViewPager viewPager;
+    private ImageView expandButton;
 
     private List<String> titleList;
     private List<Fragment> fragmentList;
 
     private FragmentAdapter fragmentAdapter;
 
-    private ColumnFragment edu_fragment;
-    private ColumnFragment tech_fragment;
-    private ColumnFragment health_fragment;
-    private ColumnFragment ente_fragment;
-    private ColumnFragment sport_fragment;
-    private ColumnFragment cul_fragment;
-    private ColumnFragment fin_fragment;
-    private ColumnFragment sco_fragment;
-    private ColumnFragment car_fragment;
-    private ColumnFragment mil_fragment;
+    public MainFragment(List<String> channelList)
+    {
+        titleList = new ArrayList<>();
+        fragmentList = new ArrayList<>();
+        titleList.clear();
+        titleList.addAll(channelList);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -50,12 +52,13 @@ public class MainFragment extends Fragment
         initView();
         setDefaultTypeList();
         initFragment();
-
         return view;
     }
 
     private void setDefaultTypeList()
     {
+        if (titleList.size() > 0)
+            return;
         titleList.add("要闻");
         titleList.add("社会");
         titleList.add("财经");
@@ -63,13 +66,13 @@ public class MainFragment extends Fragment
         titleList.add("文化");
         titleList.add("健康");
     }
+
     private void initView()
     {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-
-        titleList = new ArrayList<>();
-        fragmentList = new ArrayList<>();
+        expandButton = view.findViewById(R.id.expand);
+        expandButton.setOnClickListener(this);
     }
 
     private void initFragment()
@@ -84,6 +87,7 @@ public class MainFragment extends Fragment
 
 
         System.out.println("Init done!!!!!!!!!!!!!!!!!!!!");
+
         fragmentAdapter = new FragmentAdapter(
                 getActivity().getSupportFragmentManager(), fragmentList, titleList);
         viewPager.setAdapter(fragmentAdapter);
@@ -95,9 +99,25 @@ public class MainFragment extends Fragment
     {
         ColumnFragment oneFrament = new ColumnFragment(type);
         fragmentList.add(oneFrament);
-
     }
 
+    @Override
+    public void onClick(View view)
+    {
+        switch (view.getId()){
+            case R.id.expand:
+            {
+                System.out.println("clicked in fragment!");
+                Intent intent = new Intent(this.getContext(), ChannelChooseActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+            break;
+            default:
+                break;
+        }
+
+    }
 
 
 }

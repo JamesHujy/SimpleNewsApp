@@ -4,7 +4,21 @@
     android:layout_height="match_parent"
     android:background="	#FFFAFA"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:layout_height="35dp"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="	#F5F5F5">
+        <ImageView
+            android:id="@+id/back_to_list"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="left"
+            android:layout_width="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/back_to_list"/>
+    </LinearLayout>
     <ScrollView
         android:id="@+id/show_news"
         android:layout_width="match_parent"
@@ -98,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_margin="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -118,8 +132,20 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1" />
             </LinearLayout>
-
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/news_item_content_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:text="内容"
+                        android:textColor="	#808080"
+                        android:textSize="12sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
@@ -158,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_margin="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -179,7 +205,20 @@
                         android:layout_weight="1" />
                 </LinearLayout>
 
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/news_item_content_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:text="内容"
+                        android:textColor="	#808080"
+                        android:textSize="12sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="19dp"
@@ -217,7 +256,7 @@
                     android:layout_width="match_parent"
                     android:layout_margin="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_height="80dp"
+                    android:layout_height="70dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -237,7 +276,20 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1" />
                 </LinearLayout>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/news_item_content_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:layout_weight="2"
+                        android:text="内容"
+                        android:textColor="	#808080"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

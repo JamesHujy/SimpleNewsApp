@@ -28,7 +28,6 @@ public class HtmlRun implements Runnable {
 
         try {
             html = HtmlService.getHtml(url);
-            Log.i("jsonData",html);
 
         } catch (Exception e) {
             e.printStackTrace();

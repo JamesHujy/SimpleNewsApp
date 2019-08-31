@@ -1,8 +1,10 @@
 package com.example.simplenewsapp.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.cheng.channel.Channel;
 import com.example.simplenewsapp.Fragment.MainFragment;
 import com.example.simplenewsapp.Fragment.MineFragment;
 import com.example.simplenewsapp.Fragment.VideoFragment;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     private MainFragment mainFragment;
     private VideoFragment videoFragment;
     private MineFragment mineFragment;
-
+    private ImageView expandButton;
     private List<Fragment> fragmentList = new ArrayList<>();
     private ImageView img_main, img_video, img_dicover, img_mine;
     private TextView text_main, text_video, text_discover, text_mine;
@@ -72,13 +74,16 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+
         initView();
+
         initFragment();
 
         ll_main.setOnClickListener(this);
         ll_discover.setOnClickListener(this);
         ll_video.setOnClickListener(this);
         ll_mine.setOnClickListener(this);
+
     }
 
     @Override
@@ -143,9 +148,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.layout_main:
             {
                 if (mainFragment == null)
-                    mainFragment = new MainFragment();
-                addFragment(mainFragment);
-                showFragment(mainFragment);
+                    initFragment();
                 text_main.setTextColor(Color.RED);
                 text_video.setTextColor(Color.BLACK);
                 text_discover.setTextColor(Color.BLACK);
@@ -189,13 +192,14 @@ public class MainActivity extends AppCompatActivity
                 img_video.setImageResource(R.drawable.video);
                 img_dicover.setImageResource(R.drawable.discover);
                 img_mine.setImageResource(R.drawable.setting_selected);
-
             }
             break;
+
             default:
                 break;
         }
     }
+
 
     void initView()
     {
@@ -216,10 +220,14 @@ public class MainActivity extends AppCompatActivity
 
         img_main.setImageResource(R.drawable.main_selected);
         text_main.setTextColor(Color.RED);
+
+        expandButton = findViewById(R.id.expand);
     }
 
-    private void initFragment() {
-        mainFragment = new MainFragment();
+    private void initFragment()
+    {
+        ArrayList<String> listObj = getIntent().getStringArrayListExtra("chosenChannel");
+        mainFragment = new MainFragment(listObj);
         addFragment(mainFragment);
         showFragment(mainFragment);
     }

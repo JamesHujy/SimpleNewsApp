@@ -18,7 +18,6 @@ public class HtmlService {
         conn.setRequestMethod("GET");
 
         conn.setConnectTimeout(5 * 1000);
-        System.out.println("here!");
         InputStream inStream;
         //InputStream inStream = conn.getInputStream();//通过输入流获取html数据
         int code = conn.getResponseCode();
@@ -28,9 +27,7 @@ public class HtmlService {
             inStream = conn.getErrorStream(); // 得到网络返回的输入流
         }
 
-        System.out.println("here!");
         byte[] data = readInputStream(inStream);//得到html的二进制数据
-        System.out.println("here!");
         String html = new String(data, "UTF-8");
         return html;
     }
@@ -38,7 +35,6 @@ public class HtmlService {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;
-        System.out.println("here!");
         while( (len=inStream.read(buffer)) != -1 ){
             outStream.write(buffer, 0, len);
         }

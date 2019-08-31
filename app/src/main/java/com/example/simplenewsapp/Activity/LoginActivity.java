@@ -45,7 +45,7 @@ public class LoginActivity extends Activity
 
     void judgePassword(String username_str, String password_str)
     {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, ChannelChooseActivity.class);
         startActivity(intent);
         finish();
     }

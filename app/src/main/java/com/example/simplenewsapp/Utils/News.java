@@ -2,31 +2,37 @@ package com.example.simplenewsapp.Utils;
 import android.graphics.Bitmap;
 
 public class News {
+
     private String news_img_url;
     private String news_title;
-    private String news_url;
-    private String news_picurl;
 
     private String date;
     private String topic;
     private String author;
     private String content;
+    private Bitmap bitmap;
 
-    public News(String news_img, String news_title, String news_url, String topic, String date)
-    {
-        this.news_img_url = news_img;
-        this.news_title = news_title;
-        this.news_url = news_url;
-        this.topic = topic;
-        this.date = date;
-    }
-
-    public News(String news_title,String news_content, String date, String author)
+    public News(String news_title,String news_content, String date, String author, String url)
     {
         this.news_title = news_title;
         this.content = news_content;
         this.date = date;
         this.author = author;
+        this.news_img_url = url;
+
+    }
+
+    public News(String news_title,String news_content, String date, String author, String url, Bitmap bitmap)
+    {
+        this.news_title = news_title;
+        this.content = news_content;
+        this.date = date;
+        this.author = author;
+        this.news_img_url = url;
+        if (bitmap != null)
+            this.bitmap = Bitmap.createBitmap(bitmap);
+        else
+            this.bitmap = null;
     }
 
     public String get_title()
@@ -49,7 +55,12 @@ public class News {
         return date;
     }
 
-    public String get_pic()
+    public Bitmap get_pic()
+    {
+        return bitmap;
+    }
+
+    public String get_picurl()
     {
         return news_img_url;
     }

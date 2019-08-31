@@ -1,5 +1,7 @@
 package com.example.simplenewsapp.Adapter;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -7,6 +9,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.simplenewsapp.Utils.BitmapHelper;
 import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.R;
 import java.util.List;
@@ -35,7 +39,8 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            //viewHolder.newsImg = view.findViewById(R.id.news_item_img);
+
+            viewHolder.newsImg = view.findViewById(R.id.news_item_img);
             viewHolder.newsTitle = view.findViewById(R.id.news_item_title);
             viewHolder.newsDelete = view.findViewById(R.id.delete_item);
             viewHolder.newsAuthor = view.findViewById(R.id.news_item_author);
@@ -46,7 +51,9 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //viewHolder.newsImg.setImageBitmap(news.get_pic());
+        System.out.println("In adapter.....");
+        System.out.println(news.get_pic());
+        viewHolder.newsImg.setImageBitmap(news.get_pic());
         viewHolder.newsTitle.setText(news.get_title());
         viewHolder.newsAuthor.setText(news.get_author());
         viewHolder.newsDate.setText(news.get_date());
