@@ -16,12 +16,27 @@ public class BitmapHelper
         netCache = new NetCache(localCache,memoryCache);
     }
 
+    private String refineString(String pic_url)
+    {
+        if (pic_url.equals("[]"))
+            return "None";
+        int urllength = pic_url.length();
+        pic_url = pic_url.substring(1,urllength-1);
+        pic_url = pic_url.split(",")[0];
+        return pic_url;
+    }
+
     public Bitmap getBitmapFromUrl(String url)
     {
         Bitmap bitmap;
+        url = refineString(url);
+        if (url.equals("None"))
+            return null;
+
         bitmap = memoryCache.getBitmapFromMemory(url);
         if(bitmap != null)
             return bitmap;
+
         bitmap = localCache.getBitmapFromLocal(url);
         if(bitmap != null)
         {

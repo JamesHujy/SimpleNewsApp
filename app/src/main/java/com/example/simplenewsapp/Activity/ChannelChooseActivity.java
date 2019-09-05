@@ -97,6 +97,7 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
         }
         intent.putStringArrayListExtra("chosenChannel", channelNames);
         startActivity(intent);
+        finish();
     }
 
     @Override

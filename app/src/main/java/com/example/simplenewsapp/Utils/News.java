@@ -11,6 +11,9 @@ public class News {
     private String author;
     private String content;
     private Bitmap bitmap;
+    private boolean clicked = false;
+    private boolean collected = false;
+    private String databaseId;
 
     public News(String news_title,String news_content, String date, String author, String url)
     {
@@ -29,10 +32,7 @@ public class News {
         this.date = date;
         this.author = author;
         this.news_img_url = url;
-        if (bitmap != null)
-            this.bitmap = Bitmap.createBitmap(bitmap);
-        else
-            this.bitmap = null;
+        this.bitmap = bitmap;
     }
 
     public String get_title()
@@ -63,5 +63,15 @@ public class News {
     public String get_picurl()
     {
         return news_img_url;
+    }
+
+    public boolean get_click()
+    {
+        return clicked;
+    }
+
+    public void change_clicked()
+    {
+        clicked = true;
     }
 }

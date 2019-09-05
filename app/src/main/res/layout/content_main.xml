@@ -108,32 +108,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/layout_mine"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/img_mine"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:layout_margin="3dp"
-                android:src="@drawable/mine" />
-
-            <TextView
-                android:id="@+id/text_mine"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="我的"
-                android:textColor="#000"
-                android:layout_marginBottom="2dp"
-                android:textSize="8sp" />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

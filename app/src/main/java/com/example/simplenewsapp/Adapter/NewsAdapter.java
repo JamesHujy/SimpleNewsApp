@@ -1,13 +1,19 @@
 package com.example.simplenewsapp.Adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.AsyncTask;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.simplenewsapp.Utils.BitmapHelper;
@@ -36,6 +42,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         News news = getItem(position);
         View view;
         ViewHolder viewHolder;
+
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
@@ -46,15 +53,30 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             viewHolder.newsAuthor = view.findViewById(R.id.news_item_author);
             viewHolder.newsDate = view.findViewById(R.id.news_item_date);
             view.setTag(viewHolder);
+
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
 
         System.out.println("In adapter.....");
+        System.out.println(news.get_title());
         System.out.println(news.get_pic());
-        viewHolder.newsImg.setImageBitmap(news.get_pic());
+
+        Bitmap bitmap = news.get_pic();
+        if(bitmap != null && bitmap.getHeight() < bitmap.getWidth())
+        {
+            System.out.println("NewsImgShow");
+            viewHolder.newsImg.setImageBitmap(bitmap);
+        }
+        else{
+            System.out.println("NewsImgGone");
+            viewHolder.newsImg.setVisibility(View.GONE);
+        }
+
         viewHolder.newsTitle.setText(news.get_title());
+        if (news.get_click())
+            viewHolder.newsTitle.setTextColor(Color.parseColor("#696969"));
         viewHolder.newsAuthor.setText(news.get_author());
         viewHolder.newsDate.setText(news.get_date());
 
@@ -77,4 +99,6 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
     public void onClick(View view) {
         mCallBack.click(view);
     }
+
+    
 }

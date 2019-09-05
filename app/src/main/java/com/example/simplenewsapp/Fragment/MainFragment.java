@@ -1,14 +1,12 @@
 package com.example.simplenewsapp.Fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -18,7 +16,6 @@ import com.example.simplenewsapp.Adapter.FragmentAdapter;
 import com.example.simplenewsapp.R;
 import com.google.android.material.tabs.TabLayout;
 
-import com.cheng.channel.Channel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +38,10 @@ public class MainFragment extends Fragment implements View.OnClickListener
         titleList = new ArrayList<>();
         fragmentList = new ArrayList<>();
         titleList.clear();
-        titleList.addAll(channelList);
-
+        if(channelList != null)
+            titleList.addAll(channelList);
+        else
+            setDefaultTypeList();
     }
 
     @Override
@@ -50,15 +49,13 @@ public class MainFragment extends Fragment implements View.OnClickListener
     {
         view = inflater.inflate(R.layout.fragment_main,container,false);
         initView();
-        setDefaultTypeList();
+        //setDefaultTypeList();
         initFragment();
         return view;
     }
 
     private void setDefaultTypeList()
     {
-        if (titleList.size() > 0)
-            return;
         titleList.add("要闻");
         titleList.add("社会");
         titleList.add("财经");

@@ -48,10 +48,10 @@ public class HtmlService {
                 JSONObject news = new JSONObject(json);
                 //Log.e("Json", json);
                 String pageSize = news.getString("pageSize");
-                Log.e("Json", pageSize);
+                //Log.e("Json", pageSize);
 
                 String total = news.getString("total");
-                Log.e("Json", total);
+                //Log.e("Json", total);
 
 
                 JSONArray data = news.getJSONArray("data");
@@ -59,27 +59,26 @@ public class HtmlService {
                     JSONObject jsonObject = (JSONObject) data.get(i);
                     //取出name
                     String image = jsonObject.getString("image");
-                    Log.e("image", image);
+                    //Log.e("image", image);
 
                     pic_urllist.add(image);
 
                     String publishTime = jsonObject.getString("publishTime");
-                    Log.e("publishTime", publishTime);
+                    //Log.e("publishTime", publishTime);
                     timelist.add(publishTime);
                     JSONArray keyWords = jsonObject.getJSONArray("keywords");
                     for (int j = 0; j < keyWords.length(); j++) {
                         JSONObject keyWord = (JSONObject) keyWords.get(j);
                         String score = keyWord.getString("score");
-                        Log.e("score", score);
+                        //Log.e("score", score);
                         String word = keyWord.getString("word");
-                        Log.e("word", word);
                     }
                     String language = jsonObject.getString("language");
-                    Log.e("language", language);
+                    //Log.e("language", language);
                     String video = jsonObject.getString("video");
-                    Log.e("video", video);
+                    //Log.e("video", video);
                     String title = jsonObject.getString("title");
-                    Log.e("title", title);
+                    //Log.e("title", title);
 
                     titlelist.add(title);
 
@@ -88,14 +87,14 @@ public class HtmlService {
                     for (int j = 0; j < when.length(); j++) {
                         JSONObject keyWord = (JSONObject) when.get(j);
                         String score = keyWord.getString("score");
-                        Log.e("score", score);
+                        //Log.e("score", score);
                         String word = keyWord.getString("word");
-                        Log.e("word", word);
+                        //Log.e("word", word);
 
                     }
 
                     String content = jsonObject.getString("content");
-                    Log.e("content", content);
+                    //Log.e("content", content);
 
                     contentlist.add(content);
 
@@ -132,19 +131,19 @@ public class HtmlService {
 
                         if (!location.isNull("1ng")) {
                             String _1ng = location.getString("lng");
-                            Log.e("1ng", _1ng);
+                            //Log.e("1ng", _1ng);
                         } else {
                             //do something
                         }
 
 
                         Integer count = location.getInt("count");
-                        Log.e("count", count.toString());
+                        //Log.e("count", count.toString());
                         String linkedURL = location.getString("linkedURL");
-                        Log.e("linkedURL", linkedURL);
+                        //Log.e("linkedURL", linkedURL);
                         if (!location.isNull("1at")) {
                             String _1at = location.getString("lat");
-                            Log.e("1at", _1at);
+                            //Log.e("1at", _1at);
                         } else {
                             //do something
                         }
@@ -154,9 +153,9 @@ public class HtmlService {
                     for (int j = 0; j < where.length(); j++) {
                         JSONObject keyWord = (JSONObject) where.get(j);
                         String score = keyWord.getString("score");
-                        Log.e("score", score);
+                        //Log.e("score", score);
                         String word = keyWord.getString("word");
-                        Log.e("word", word);
+                        //Log.e("word", word);
                     }
                     String category = jsonObject.getString("category");
 
@@ -164,9 +163,9 @@ public class HtmlService {
                     for (int j = 0; j < who.length(); j++) {
                         JSONObject keyWord = (JSONObject) who.get(j);
                         String score = keyWord.getString("score");
-                        Log.e("score", score);
+                        //Log.e("score", score);
                         String word = keyWord.getString("word");
-                        Log.e("word", word);
+                        //Log.e("word", word);
                     }
                 /*JSONArray jarray1 = jsonObject.getJSONArray("publicTime");
                 JSONArray jarray2 = jsonObject.getJSONArray("data");
@@ -174,10 +173,10 @@ public class HtmlService {
                 Log.e("Json", jarray2.toString());*/
                 }
             } catch (Exception e) {
-                Log.e("error", "error in parseDiffJson");
+                //Log.e("error", "error in parseDiffJson");
                 e.printStackTrace();
             }
-            Log.e("JSON", "finish!");
+            //Log.e("JSON", "finish!");
         }
 
     }

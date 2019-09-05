@@ -57,11 +57,7 @@ public class NetCache
 
     private Bitmap getBitmap(String pic_url)
     {
-        if (pic_url.equals("[]"))
-            return null;
-        int urllength = pic_url.length();
-        pic_url = pic_url.substring(1,urllength-1);
-        pic_url = pic_url.split(",")[0];
+
 
         Bitmap bm = null;
         try {

@@ -2,9 +2,11 @@ package com.example.simplenewsapp.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.cheng.channel.Channel;
+import com.example.simplenewsapp.Fragment.DiscoverFragment;
 import com.example.simplenewsapp.Fragment.MainFragment;
 import com.example.simplenewsapp.Fragment.MineFragment;
 import com.example.simplenewsapp.Fragment.VideoFragment;
@@ -14,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.graphics.Color;
@@ -39,23 +42,23 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
-    private LinearLayout ll_main, ll_video, ll_discover, ll_mine;
+    private LinearLayout ll_main, ll_video, ll_discover;
 
     private MainFragment mainFragment;
     private VideoFragment videoFragment;
-    private MineFragment mineFragment;
-    private ImageView expandButton;
+    //private MineFragment mineFragment;
+    private DiscoverFragment discoverFragment;
     private List<Fragment> fragmentList = new ArrayList<>();
-    private ImageView img_main, img_video, img_dicover, img_mine;
-    private TextView text_main, text_video, text_discover, text_mine;
+    private ImageView img_main, img_video, img_dicover;
+    private TextView text_main, text_video, text_discover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO);
         /*
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         ll_main.setOnClickListener(this);
         ll_discover.setOnClickListener(this);
         ll_video.setOnClickListener(this);
-        ll_mine.setOnClickListener(this);
+        //ll_mine.setOnClickListener(this);
 
     }
 
@@ -122,9 +126,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_nightmode) {
+            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            getDelegate().setLocalNightMode(currentNightMode == Configuration.UI_MODE_NIGHT_NO ?
+                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            startActivity(new Intent(this,MainActivity.class));
+            finish();
+        }
+        /*else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -149,15 +158,17 @@ public class MainActivity extends AppCompatActivity
             {
                 if (mainFragment == null)
                     initFragment();
+                addFragment(mainFragment);
+                showFragment(mainFragment);
                 text_main.setTextColor(Color.RED);
                 text_video.setTextColor(Color.BLACK);
                 text_discover.setTextColor(Color.BLACK);
-                text_mine.setTextColor(Color.BLACK);
+                //text_mine.setTextColor(Color.BLACK);
 
                 img_main.setImageResource(R.drawable.main_selected);
-                img_video.setImageResource(R.drawable.setting);
+                img_video.setImageResource(R.drawable.video);
                 img_dicover.setImageResource(R.drawable.discover);
-                img_mine.setImageResource(R.drawable.mine);
+                //img_mine.setImageResource(R.drawable.mine);
             }
             break;
             case R.id.layout_video: {
@@ -169,32 +180,32 @@ public class MainActivity extends AppCompatActivity
                 text_video.setTextColor(Color.RED);
                 text_main.setTextColor(Color.BLACK);
                 text_discover.setTextColor(Color.BLACK);
-                text_mine.setTextColor(Color.BLACK);
-
-                img_main.setImageResource(R.drawable.main);
-                img_video.setImageResource(R.drawable.setting_selected);
-                img_dicover.setImageResource(R.drawable.discover);
-                img_mine.setImageResource(R.drawable.mine);
-            }
-            break;
-            case R.id.layout_mine: {
-                if (mineFragment == null) {
-                    mineFragment = new MineFragment();
-                }
-                addFragment(mineFragment);
-                showFragment(mineFragment);
-                text_mine.setTextColor(Color.RED);
-                text_main.setTextColor(Color.BLACK);
-                text_video.setTextColor(Color.BLACK);
-                text_discover.setTextColor(Color.BLACK);
+                //text_mine.setTextColor(Color.BLACK);
 
                 img_main.setImageResource(R.drawable.main);
                 img_video.setImageResource(R.drawable.video);
                 img_dicover.setImageResource(R.drawable.discover);
-                img_mine.setImageResource(R.drawable.setting_selected);
+                //img_mine.setImageResource(R.drawable.mine);
             }
             break;
+            case R.id.layout_discover:
+            {
+                if(discoverFragment == null)
+                {
+                    discoverFragment = new DiscoverFragment();
+                }
+                addFragment(discoverFragment);
+                showFragment(discoverFragment);
 
+                text_discover.setTextColor(Color.RED);
+                //text_mine.setTextColor(Color.BLACK);
+                text_main.setTextColor(Color.BLACK);
+                text_video.setTextColor(Color.BLACK);
+
+                img_main.setImageResource(R.drawable.main);
+                img_video.setImageResource(R.drawable.video);
+                img_dicover.setImageResource(R.drawable.discover);
+            }
             default:
                 break;
         }
@@ -206,30 +217,40 @@ public class MainActivity extends AppCompatActivity
         ll_main = findViewById(R.id.layout_main);
         ll_video = findViewById(R.id.layout_video);
         ll_discover = findViewById(R.id.layout_discover);
-        ll_mine = findViewById(R.id.layout_mine);
+        //ll_mine = findViewById(R.id.layout_mine);
 
         text_main = findViewById(R.id.text_main);
         text_video = findViewById(R.id.text_video);
-        text_mine = findViewById(R.id.text_mine);
+        //text_mine = findViewById(R.id.text_mine);
         text_discover = findViewById(R.id.text_discover);
 
         img_main = findViewById(R.id.img_main);
         img_video = findViewById(R.id.img_video);
         img_dicover = findViewById(R.id.img_discover);
-        img_mine = findViewById(R.id.img_mine);
+        //img_mine = findViewById(R.id.img_mine);
 
         img_main.setImageResource(R.drawable.main_selected);
         text_main.setTextColor(Color.RED);
-
-        expandButton = findViewById(R.id.expand);
     }
 
     private void initFragment()
     {
-        ArrayList<String> listObj = getIntent().getStringArrayListExtra("chosenChannel");
-        mainFragment = new MainFragment(listObj);
-        addFragment(mainFragment);
-        showFragment(mainFragment);
+        ArrayList<String> listObj = new ArrayList<>();
+        try
+        {
+            listObj = getIntent().getStringArrayListExtra("chosenChannel");
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+        finally {
+            mainFragment = new MainFragment(listObj);
+            addFragment(mainFragment);
+            showFragment(mainFragment);
+        }
+
+
     }
 
     private void addFragment(Fragment fragment) {
