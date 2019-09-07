@@ -12,7 +12,7 @@ public class NewsDataBaseHelper extends SQLiteOpenHelper
     ///////////////
     public static final String CREATE_COLLECTION_NEWS = "create table Collection_News ("
             + "id integer primary key autoincrement, news_title text, news_date text, "
-            + "news_author text, news_pic_url text, news_url text, news_content text, key_words text, news_type text, iflike integer, ifread integer, UNIQUE (news_title))";
+            + "news_author text, news_pic_url text, news_url text, news_content text, key_words text, news_type text, video_url text, iflike integer, ifread integer, UNIQUE (news_title))";
     public static final String CREATE_NEWS_HISTORY = "create table News_History (id integer primary key autoincrement, news_title text)";
     //name 数据库名字 factory 查询时传入的cursor version版本 用于升级
     public static final String CREATE_NEWS_LIKE = "create table News_Like (id integer primary key autoincrement, news_title text)";

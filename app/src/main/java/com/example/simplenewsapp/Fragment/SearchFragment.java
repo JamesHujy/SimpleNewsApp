@@ -1,5 +1,6 @@
 package com.example.simplenewsapp.Fragment;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,6 +32,7 @@ import com.example.simplenewsapp.Utils.BaseSearchAdapter;
 import com.example.simplenewsapp.Utils.HtmlRun;
 import com.example.simplenewsapp.Utils.LoadListView;
 import com.example.simplenewsapp.Utils.News;
+import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.SearchAdapter;
 import com.example.simplenewsapp.Utils.SearchDataBase;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
@@ -58,6 +60,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
     private String url;
 
     private NewsAdapter mNewsAdapter;
+
+    private NewsDataBaseHelper dbHelper;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
 
@@ -70,7 +74,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
 
     private void initSearch() {
         String user_name = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.LOGIN_DATA, "");
-
+        dbHelper = new NewsDataBaseHelper(getContext(), "User_"+user_name+".db", null, 1);
         mDatebase =new SearchDataBase(this.getContext(), user_name+"_search_record.db");
         mbtn_serarch = view.findViewById(R.id.btn_serarch);
         met_search = view.findViewById(R.id.et_search);
@@ -172,13 +176,13 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         if (!cursor.isNull(cursor.getColumnIndex("id"))) {
 
             String title_ = cursor.getString(cursor.getColumnIndex("news_title"));
-            System.out.println("in get News from SQL. title is "+title_);
+            //System.out.println("in get News from SQL. title is "+title_);
             String date_ = cursor.getString(cursor.getColumnIndex("news_date"));
             String content_ = cursor.getString(cursor.getColumnIndex("news_content"));
             String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
             String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
-            System.out.println("test cursor author is " + author_);
-            System.out.println("test cursor url is " + url_);
+            //System.out.println("test cursor author is " + author_);
+            //System.out.println("test cursor url is " + url_);
 
             //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
 
@@ -214,6 +218,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
 
     private void getNews(String content)
     {
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
         final ArrayList<String> titleList = new ArrayList<>();
         final ArrayList<String> contentList = new ArrayList<>();
         final ArrayList<String> datesList = new ArrayList<>();
@@ -221,9 +226,10 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         final ArrayList<String> picurlList = new ArrayList<>();
         final ArrayList<String> typeList = new ArrayList<>();
         final ArrayList<String> keywordList = new ArrayList<>();
+        final ArrayList<String> videourlList = new ArrayList<>();
         setUrl(content,2000);
 
-        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, url);
+        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, videourlList, url);
         Thread thread = new Thread(test);
         thread.start();
 
@@ -239,13 +245,41 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         System.out.println(titleList.size());
         for(int i = 0; i < titleList.size();i++)
         {
-            String title = titleList.get(i);
+            /*String title = titleList.get(i);
             String body = contentList.get(i);
             String date = datesList.get(i);
             String author = authorList.get(i);
             String picurl = picurlList.get(i);
+            String videourl = videourlList.get(i);*/
+            String title = titleList.get(i);
+            String content_ = contentList.get(i);
+            String date = datesList.get(i);
+            String author = authorList.get(i);
+            String picurl = picurlList.get(i);
+            String keywords = keywordList.get(i);
+            String videourl = videourlList.get(i);
+            if (checkIfNew(title, db)) {
+                ContentValues values = new ContentValues();
+                values.put("news_title",title);
+                values.put("news_date",date);
+                values.put("news_content",content_);
+                values.put("news_author",author);
+                values.put("news_pic_url", picurl);
+                values.put("key_words", keywords);
+                values.put("news_type", content);
+                values.put("video_url", videourl);
+                values.put("iflike", 0);
+                values.put("ifread", 0);
 
-            News news = new News(title, body, date, author, picurl);
+
+                //System.out.println("news_pic_url"+picurl);
+
+                db.insert("Collection_News",null,values);
+                /////
+                //typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
+            }
+
+            News news = new News(title, content_, date, author, picurl);
             newsArrayList.add(news);
         }
 

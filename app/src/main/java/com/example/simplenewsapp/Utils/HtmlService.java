@@ -1,5 +1,7 @@
 package com.example.simplenewsapp.Utils;
 
+import android.app.Activity;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -40,7 +42,7 @@ public class HtmlService {
         return outStream.toByteArray();
     }
     public static void parseDiffJson(String json, ArrayList<String> titlelist, ArrayList<String> contentlist, ArrayList<String> timelist, ArrayList<String> authorlist, ArrayList<String> pic_urllist
-            , ArrayList<String> keywordslist, ArrayList<String> categorylist) {
+            , ArrayList<String> keywordslist, ArrayList<String> categorylist, ArrayList<String> video_urllist) {
         //NewsDataBaseHelper dbHelper = new NewsDataBaseHelper(, "NewsDB,db", null, 1);
         synchronized(titlelist) {
             try {
@@ -82,6 +84,7 @@ public class HtmlService {
                     String language = jsonObject.getString("language");
                     //Log.e("language", language);
                     String video = jsonObject.getString("video");
+                    video_urllist.add(video);
                     //Log.e("video", video);
                     String title = jsonObject.getString("title");
                     //Log.e("title", title);

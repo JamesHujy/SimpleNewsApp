@@ -255,10 +255,11 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         final ArrayList<String> picurlList = new ArrayList<>();
         final ArrayList<String> typeList = new ArrayList<>();
         final ArrayList<String> keywordList = new ArrayList<>();
+        final ArrayList<String> videourlList = new ArrayList<>();
         setUrl(2000);/////////?????
 
         System.out.println(url);
-        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, url);
+        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, videourlList, url);
 
         Thread thread = new Thread(test);
         thread.start();
@@ -286,6 +287,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             String author = authorList.get(i);
             String picurl = picurlList.get(i);
             String keywords = keywordList.get(i);
+            String videourl = videourlList.get(i);
             //String type = typeList.get(i);
 
             if (checkIfNew(title, db)) {
@@ -297,6 +299,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                 values.put("news_pic_url", picurl);
                 values.put("key_words", keywords);
                 values.put("news_type", type);
+                values.put("video_url", videourl);
                 values.put("iflike", 0);
                 values.put("ifread", 0);
 
@@ -308,7 +311,8 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                 typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
             }
             else {
-                System.out.println("news not new!");
+                //System.out.println("news not new!");
+                //如果已经在数据库中出现但是是首次加载 也需要加入表中
                 if (ifEmpty)
                 {
                     System.out.println("title is "+title);
