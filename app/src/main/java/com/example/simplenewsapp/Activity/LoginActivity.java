@@ -45,7 +45,7 @@ public class LoginActivity extends Activity
                 finish();
             }
         });
-        
+
     }
 
     void initView()
