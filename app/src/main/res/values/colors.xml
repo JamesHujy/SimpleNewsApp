@@ -7,4 +7,11 @@
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorGrey">#D3D3D3</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="textColor">#FF0000</color>
+
+    <color name="nightColorPrimary">#3b3b3b</color>
+    <color name="nightColorPrimaryDark">#303F9F</color>
+    <color name="nightColorAccent">#a72b55</color>
+
 </resources>

@@ -76,7 +76,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
 
     News getNewsFromSQL(int id, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, " +
-                "news_pic_url from Collection_News where id = " + id, null);
+                "news_pic_url, ifread from Collection_News where id = " + id, null);
         cursor.moveToFirst();
         if (!cursor.isNull(cursor.getColumnIndex("id"))) {
 
@@ -85,12 +85,18 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             String content_ = cursor.getString(cursor.getColumnIndex("news_content"));
             String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
             String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
+            int ifread = cursor.getInt(cursor.getColumnIndex("ifread"));
 
 
             //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
 
             //Bitmap bitmap = bitmapHelper.getBitmapFromUrl(url_);
             News news = new News(title_, content_, date_, author_, url_);
+            if (ifread == 1)
+            {
+                news.change_clicked();
+            }
+
             return news;
         }
         return new News("", "", "", "", "");
@@ -112,18 +118,25 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         user_name = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.LOGIN_DATA, "");//注意一下
 
         dbHelper = new NewsDataBaseHelper(getContext(), "User_"+user_name+".db", null, 1);
-        setupViews();
 
+        System.out.println("going to judge network");
         if (HttpUtils.isNetworkConnected(getContext()))
         {
             Toast.makeText(getContext(), "当前网络可用", Toast.LENGTH_SHORT).show();
+            setupViews();
+            System.out.println("connected!");
             initNews();
         }
         else
         {
+            setupViews();
             Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
             initLocalNews();
         }
+
+
+
+
         //initNews();
 
 
@@ -177,13 +190,18 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, "+
                 "news_pic_url, news_type from Collection_News", null);
+        System.out.println(type);
         while (cursor.moveToNext()) {
             String type_ = cursor.getString(cursor.getColumnIndex("news_type"));
             String title = cursor.getString(cursor.getColumnIndex("news_title"));
             if (type_.equals(type)) {
+                System.out.println("type match");
                 typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
             }
+            System.out.println(type_);
+            System.out.println(title);
         }
+
 
         //////////////////////////////////以下部分为复制粘贴
         Thread loadthread = new Thread(new Runnable() {
@@ -261,7 +279,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             String author = authorList.get(i);
             String picurl = picurlList.get(i);
             String keywords = keywordList.get(i);
-            String type = typeList.get(i);
+            //String type = typeList.get(i);
 
             if (checkIfNew(title, db)) {
                 ContentValues values = new ContentValues();

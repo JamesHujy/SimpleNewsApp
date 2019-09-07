@@ -155,11 +155,8 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         System.out.println("In adapter.....");
         System.out.println(news.get_title());
 
-        if (isConnected)
-        {
-            LoadPic loadPic = new LoadPic(news.get_picurl(),viewHolder.newsImg,news.get_title());
-            loadPic.execute(news.get_picurl());
-        }
+        LoadPic loadPic = new LoadPic(news.get_picurl(),viewHolder.newsImg,news.get_title());
+        loadPic.execute(news.get_picurl());
 
         viewHolder.newsTitle.setText(news.get_title());
 

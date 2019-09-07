@@ -45,7 +45,7 @@ public class RegisterActivity extends Activity {
         //dbHelper = new (this, "UserDB.db", null, 1);
 
         save_user = findViewById(R.id.save_user);
-        shangchuan_head = findViewById(R.id.shangchuan_head);
+        //shangchuan_head = findViewById(R.id.shangchuan_head);
 
         username = findViewById(R.id.register_username);
         userpassword = findViewById(R.id.register_password);
@@ -92,7 +92,6 @@ public class RegisterActivity extends Activity {
                 }else {
                     Toast.makeText(RegisterActivity.this, "请勾选同意使用条款", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 

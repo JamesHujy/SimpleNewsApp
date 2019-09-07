@@ -83,23 +83,22 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         Intent intent = getIntent();
 
         news_title_str = intent.getStringExtra("title");
-        //news_title_str = intent.getStringExtra("title");
         news_body_str = intent.getStringExtra("content");
         news_author_str = intent.getStringExtra("author");
         news_time_str = intent.getStringExtra("date");
         news_picurl = intent.getStringExtra("pic_url");
 
-        String user_name = (String) ShareInfoUtil.getParam(ShowNewsActivity.this, ShareInfoUtil.LOGIN_DATA, "");//注意一下
+        System.out.println(news_title_str);
+        String user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");//注意一下
 
         //dbHelper = new NewsDataBaseHelper(this, "UserDB.db", null, 1);
         dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select news_title from Collection_News", null);
-        //cursor = db.rawQuery("select news_title, iflike from Collection_News where news_title="+news_title_str, null);
-        //cursor = db.rawQuery("select news_title, iflike from Collection_News where id="+5, null);
-        cursor = db.rawQuery("select news_title, iflike from Collection_News where news_title=?", new String[]{news_title_str});
+        Cursor cursor = db.rawQuery("select news_title, iflike from Collection_News where news_title=?", new String[]{news_title_str});
+        System.out.println(cursor.getCount());
+        //System.out.println(news);
         cursor.moveToFirst();
         int like = cursor.getInt(cursor.getColumnIndex("iflike"));
         if (like == 1)
@@ -265,7 +264,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         ContentValues values_ = new ContentValues();
         //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
-        db.delete("News_Like", "news_title_str = ? ", new String[]{news_title_str});
+        db.delete("News_Like", "news_title = ? ", new String[]{news_title_str});
         //db.insert("News_Like", null, values_);
     }
 
@@ -277,6 +276,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             case R.id.back_to_list:
             {
                 finish();
+                startActivity(new Intent(this, CollectionActivity.class));
             }
             break;
             case R.id.collect_news:
