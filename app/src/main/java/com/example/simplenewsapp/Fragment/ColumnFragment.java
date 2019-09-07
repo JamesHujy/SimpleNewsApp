@@ -259,7 +259,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         final ArrayList<String> videourlList = new ArrayList<>();
         setUrl(2000);/////////?????
 
-        System.out.println(url);
+        System.out.println("ColumnFragment.initNews "+url);
         HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, videourlList, url);
 
         Thread thread = new Thread(test);
@@ -313,12 +313,18 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             }
             else {
                 //System.out.println("news not new!");
-                //如果已经在数据库中出现但是是首次加载 也需要加入表中
-                if (ifEmpty)
+                //判重
+                int id = getIDFromSQL(title, db);
+                boolean flg = false;
+                for (int k = 0; k < typeNewsTotal; k++) {
+                    if (typeNewsArray[k] == id)
+                        flg = true;
+                }
+                if (!flg)
                 {
-                    System.out.println("title is "+title);
+                    //System.out.println("title is "+title);
                     /////
-                    typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
+                    typeNewsArray[typeNewsTotal++] = id;
                 }
 
             }

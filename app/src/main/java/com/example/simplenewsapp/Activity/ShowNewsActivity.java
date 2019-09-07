@@ -26,6 +26,7 @@ import androidx.core.app.ShareCompat;
 import com.example.simplenewsapp.Adapter.NewsAdapter;
 import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.BitmapHelper;
+import com.example.simplenewsapp.Utils.HtmlRun;
 import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareAnyWhere;
@@ -98,7 +99,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select news_title, iflike from Collection_News where news_title=?", new String[]{news_title_str});
+        Cursor cursor = db.rawQuery("select news_title, key_words, iflike from Collection_News where news_title=?", new String[]{news_title_str});
         System.out.println(cursor.getCount());
         //System.out.println(news);
         cursor.moveToFirst();
@@ -128,6 +129,87 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
         db.insert("News_History", null, values_);
+
+        String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
+        String[] keyWordList = keyWords.split(" ");
+
+        recommendNews(keyWordList[0], db, newsList);
+
+        System.out.println("in showNewsActivity.recommendNews "+newsList.size());
+        newsAdapter.notifyDataSetChanged();
+        //newsList.add()
+    }///
+    private void recommendNews(String type, SQLiteDatabase db, List<News> newsList) {
+        System.out.println("in showNewsActivity.recommendNews "+type);
+        newsList.clear();
+        String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=3&words=" + type;
+        final ArrayList<String> titleList = new ArrayList<>();
+        final ArrayList<String> contentList = new ArrayList<>();
+        final ArrayList<String> datesList = new ArrayList<>();
+        final ArrayList<String> authorList = new ArrayList<>();
+        final ArrayList<String> picurlList = new ArrayList<>();
+        final ArrayList<String> typeList = new ArrayList<>();
+        final ArrayList<String> keywordList = new ArrayList<>();
+        final ArrayList<String> videourlList = new ArrayList<>();
+        //setUrl(2000);/////////?????
+
+        System.out.println("ColumnFragment.initNews "+url);
+        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, videourlList, url);
+
+        Thread thread = new Thread(test);
+        thread.start();
+
+        try
+        {
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //final SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        for(int i = 0;i < titleList.size();i++)
+        {
+            String title = titleList.get(i);
+            String content = contentList.get(i);
+            String date = datesList.get(i);
+            String author = authorList.get(i);
+            String picurl = picurlList.get(i);
+            String keywords = keywordList.get(i);
+            String videourl = videourlList.get(i);
+            //String type = typeList.get(i);
+
+            if (checkIfNew(title, db)) {
+                ContentValues values = new ContentValues();
+                values.put("news_title",title);
+                values.put("news_date",date);
+                values.put("news_content",content);
+                values.put("news_author",author);
+                values.put("news_pic_url", picurl);
+                values.put("key_words", keywords);
+                values.put("news_type", type);
+                values.put("video_url", videourl);
+                values.put("iflike", 0);
+                values.put("ifread", 0);
+
+
+                System.out.println("news_pic_url"+picurl);
+
+                db.insert("Collection_News",null,values);
+                /////
+
+            }
+            News news = new News(title, content, date, author, url);
+            newsList.add(news);
+        }
+
+    }
+    boolean checkIfNew(String title, SQLiteDatabase db) {
+        Cursor cursor = db.query("Collection_News", new String[]{"news_title"}, "news_title = ?", new String[]{title},
+                null, null, null);
+        if (cursor.getCount()==0)
+            return true;
+        return false;
     }
 
     private class LoadPic extends AsyncTask<Object, Void, Bitmap>
