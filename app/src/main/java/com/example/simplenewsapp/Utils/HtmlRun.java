@@ -16,8 +16,9 @@ public class HtmlRun implements Runnable {
 
     ArrayList<String> keyword;///////////////////////////////
     ArrayList<String> category;
+    ArrayList<String> video_url;
     public HtmlRun(ArrayList<String> title, ArrayList<String> content, ArrayList<String> time, ArrayList<String> author, ArrayList<String> pic_url,
-                   ArrayList<String> keyword, ArrayList<String> category, String url) {
+                   ArrayList<String> keyword, ArrayList<String> category, ArrayList<String> video_url, String url) {
 
         this.url = url;
         this.title = title;
@@ -27,6 +28,7 @@ public class HtmlRun implements Runnable {
         this.pic_url = pic_url;
         this.keyword = keyword;
         this.category = category;
+        this.video_url = video_url;
     }
     public void run() {
 
@@ -37,6 +39,6 @@ public class HtmlRun implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        com.example.simplenewsapp.Utils.HtmlService.parseDiffJson(html, title, content, time, author, pic_url, keyword, category);
+        com.example.simplenewsapp.Utils.HtmlService.parseDiffJson(html, title, content, time, author, pic_url, keyword, category, video_url);
     }
 }

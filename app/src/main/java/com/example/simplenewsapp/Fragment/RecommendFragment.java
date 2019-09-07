@@ -217,10 +217,11 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         final ArrayList<String> picurlList = new ArrayList<>();
         final ArrayList<String> typeList = new ArrayList<>();
         final ArrayList<String> keywordList = new ArrayList<>();
+        final ArrayList<String> videourlList = new ArrayList<>();
         setUrl(2000);/////////?????
 
         System.out.println(url);
-        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, url);
+        HtmlRun test = new HtmlRun(titleList, contentList, datesList, authorList, picurlList, keywordList, typeList, videourlList, url);
 
         Thread thread = new Thread(test);
         thread.start();
@@ -244,6 +245,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
             String picurl = picurlList.get(i);
             String keywords = keywordList.get(i);
             String type = typeList.get(i);
+            String videourl = videourlList.get(i);
 
             if (checkIfNew(title, db)) {
                 ContentValues values = new ContentValues();
@@ -254,6 +256,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
                 values.put("news_pic_url", picurl);
                 values.put("key_words", keywords);
                 values.put("news_type", type);
+                values.put("video_url", videourl);
                 values.put("iflike", 0);
                 values.put("ifread", 0);
 
