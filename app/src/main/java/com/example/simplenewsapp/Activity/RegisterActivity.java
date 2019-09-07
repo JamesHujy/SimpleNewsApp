@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.Album;
+import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +54,8 @@ public class RegisterActivity extends Activity {
                 else if(!judgeExit(username_str))
                 {
                     insertUser(username_str, password_str_first);
+                    ShareInfoUtil.setParam(getBaseContext(), ShareInfoUtil.IS_LOGIN, true);
+                    ShareInfoUtil.setParam(getBaseContext(), ShareInfoUtil.LOGIN_DATA, username_str);
                 }
             }
         });
