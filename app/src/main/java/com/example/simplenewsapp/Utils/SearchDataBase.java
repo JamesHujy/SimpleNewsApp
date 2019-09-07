@@ -12,12 +12,12 @@ public class SearchDataBase {
     private SearchDataBaseHelper helper;
     private SQLiteDatabase db;
 
-    public SearchDataBase(Context context) {
+    public SearchDataBase(Context context, String user_name) {
         this.context = context;
-        init();
+        init(user_name);
     }
-    private void init() {
-        helper = new SearchDataBaseHelper(context);
+    private void init(String user_name) {
+        helper = new SearchDataBaseHelper(context, user_name);
         queryData("");
     }
 

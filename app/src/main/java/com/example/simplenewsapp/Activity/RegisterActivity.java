@@ -44,13 +44,13 @@ public class RegisterActivity extends Activity {
 
         //dbHelper = new (this, "UserDB.db", null, 1);
 
-        save_user =(TextView) findViewById(R.id.save_user);
-        shangchuan_head =(ImageView) findViewById(R.id.shangchuan_head);
+        save_user = findViewById(R.id.save_user);
+        shangchuan_head = findViewById(R.id.shangchuan_head);
 
-        username =(EditText) findViewById(R.id.register_username);
-        userpassword =(EditText) findViewById(R.id.register_password);
-        repassword =(EditText) findViewById(R.id.register_repassword);
-        checkBox =(CheckBox) findViewById(R.id.checkbox_tiaokuan);
+        username = findViewById(R.id.register_username);
+        userpassword = findViewById(R.id.register_password);
+        repassword = findViewById(R.id.register_repassword);
+        checkBox = findViewById(R.id.checkbox_tiaokuan);
 
         shangchuan_head.setOnClickListener(new View.OnClickListener() {
             @Override

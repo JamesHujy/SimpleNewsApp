@@ -5,12 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SearchDataBaseHelper extends SQLiteOpenHelper {
-    private static String name = "search_record.db";
     private static Integer version = 1;
 
 
-    public SearchDataBaseHelper(Context context) {
-        super(context, name, null, version);
+    public SearchDataBaseHelper(Context context, String name) {
+        super(context,name, null, version);
     }
 
     @Override

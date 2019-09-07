@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
         ll_discover.setOnClickListener(this);
         ll_video.setOnClickListener(this);
         //ll_mine.setOnClickListener(this);
-
     }
 
     @Override
@@ -133,9 +132,14 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,MainActivity.class));
             finish();
         }
-        /*else if (id == R.id.nav_gallery) {
+        else if (id == R.id.nav_collect) {
+            startActivity(new Intent(this,CollectionActivity.class));
 
-        } else if (id == R.id.nav_slideshow) {
+        }
+
+
+
+/*      else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_tools) {
 
@@ -211,7 +215,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     void initView()
     {
         ll_main = findViewById(R.id.layout_main);
@@ -239,6 +242,7 @@ public class MainActivity extends AppCompatActivity
         try
         {
             listObj = getIntent().getStringArrayListExtra("chosenChannel");
+
         }
         catch (Exception e)
         {

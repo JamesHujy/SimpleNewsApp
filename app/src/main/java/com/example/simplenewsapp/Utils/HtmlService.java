@@ -1,6 +1,4 @@
-package com.example.myapplication;
-
-import android.util.Log;
+package com.example.simplenewsapp.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,7 +39,8 @@ public class HtmlService {
         inStream.close();
         return outStream.toByteArray();
     }
-    public static void parseDiffJson(String json, ArrayList<String> titlelist, ArrayList<String> contentlist, ArrayList<String> timelist, ArrayList<String> authorlist, ArrayList<String> pic_urllist) {
+    public static void parseDiffJson(String json, ArrayList<String> titlelist, ArrayList<String> contentlist, ArrayList<String> timelist, ArrayList<String> authorlist, ArrayList<String> pic_urllist
+            , ArrayList<String> keywordslist, ArrayList<String> categorylist) {
         //NewsDataBaseHelper dbHelper = new NewsDataBaseHelper(, "NewsDB,db", null, 1);
         synchronized(titlelist) {
             try {
@@ -67,12 +66,19 @@ public class HtmlService {
                     //Log.e("publishTime", publishTime);
                     timelist.add(publishTime);
                     JSONArray keyWords = jsonObject.getJSONArray("keywords");
+                    ///////////////////////////////////////////////////////////////////////////
+                    String tmp = "";
                     for (int j = 0; j < keyWords.length(); j++) {
                         JSONObject keyWord = (JSONObject) keyWords.get(j);
+
                         String score = keyWord.getString("score");
                         //Log.e("score", score);
                         String word = keyWord.getString("word");
+                        tmp = tmp + word + " ";
                     }
+                    System.out.println("Keywords is "+tmp);
+                    keywordslist.add(tmp);
+                    /////////////////////////////////////////////////////////////////////////////
                     String language = jsonObject.getString("language");
                     //Log.e("language", language);
                     String video = jsonObject.getString("video");
@@ -158,6 +164,10 @@ public class HtmlService {
                         //Log.e("word", word);
                     }
                     String category = jsonObject.getString("category");
+
+
+                    //////////////////////////
+                    categorylist.add(category);
 
                     JSONArray who = jsonObject.getJSONArray("who");
                     for (int j = 0; j < who.length(); j++) {

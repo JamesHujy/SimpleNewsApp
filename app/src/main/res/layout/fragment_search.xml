@@ -40,7 +40,8 @@
     <RelativeLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/history_info">
 
 
         <TextView
@@ -64,6 +65,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ListView
+        android:id="@+id/listview_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+    </ListView>
 
 
 

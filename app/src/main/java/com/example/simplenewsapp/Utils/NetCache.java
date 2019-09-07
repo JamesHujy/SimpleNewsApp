@@ -27,6 +27,7 @@ public class NetCache
         new LoadPic().execute(url);
         return mBitmap;
     }
+
     class LoadPic extends AsyncTask<Object, Void, Bitmap>
     {
         String url;

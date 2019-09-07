@@ -4,7 +4,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import com.example.myapplication.HtmlService;
 public class HtmlRun implements Runnable {
     String html;
     String url;
@@ -14,7 +13,11 @@ public class HtmlRun implements Runnable {
     ArrayList<String> time;
     ArrayList<String> author;
     ArrayList<String> pic_url;
-    public HtmlRun(ArrayList<String> title, ArrayList<String> content, ArrayList<String> time, ArrayList<String> author, ArrayList<String> pic_url, String url) {
+
+    ArrayList<String> keyword;///////////////////////////////
+    ArrayList<String> category;
+    public HtmlRun(ArrayList<String> title, ArrayList<String> content, ArrayList<String> time, ArrayList<String> author, ArrayList<String> pic_url,
+                   ArrayList<String> keyword, ArrayList<String> category, String url) {
 
         this.url = url;
         this.title = title;
@@ -22,6 +25,8 @@ public class HtmlRun implements Runnable {
         this.time = time;
         this.author = author;
         this.pic_url = pic_url;
+        this.keyword = keyword;
+        this.category = category;
     }
     public void run() {
 
@@ -32,6 +37,6 @@ public class HtmlRun implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        com.example.myapplication.HtmlService.parseDiffJson(html, title, content, time, author, pic_url);
+        com.example.simplenewsapp.Utils.HtmlService.parseDiffJson(html, title, content, time, author, pic_url, keyword, category);
     }
 }

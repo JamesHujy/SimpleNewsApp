@@ -45,7 +45,7 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener
     {
         tabLayout = view.findViewById(R.id.discover_layout);
         viewPager = view.findViewById(R.id.discover_pager);
-        ColumnFragment recommendFragment = new ColumnFragment("体育");
+        RecommendFragment recommendFragment = new RecommendFragment();
         SearchFragment searchFragment = new SearchFragment();
         SearchFragment searchFragment1 = new SearchFragment();
 

@@ -1,37 +1,37 @@
 package com.example.simplenewsapp.Fragment;
 
-import androidx.fragment.app.Fragment;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.simplenewsapp.Activity.ShowNewsActivity;
 import com.example.simplenewsapp.Adapter.NewsAdapter;
-import com.example.simplenewsapp.Utils.BitmapHelper;
+import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.HtmlRun;
-import com.example.simplenewsapp.Utils.HttpUtils;
 import com.example.simplenewsapp.Utils.LoadListView;
 import com.example.simplenewsapp.Utils.News;
-import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, LoadListView.ILoadListener,
+public class RecommendFragment extends Fragment implements NewsAdapter.CallBack, LoadListView.ILoadListener,
         LoadListView.RLoadListener
 {
     private View view;
@@ -47,7 +47,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
     private String startDate, endDate;
     final private int newsCount = 8;
 
-    NewsDataBaseHelper dbHelper;
+    private NewsDataBaseHelper dbHelper;
 
     private Integer[] typeNewsArray = new Integer[2000];//记录在数据库中哪些id属于这类新闻
     private Integer typeNewsTotal = 0;
@@ -57,10 +57,63 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
 
     private String user_name;
 
-
-    public ColumnFragment(String type)
+    void init()
     {
-        this.type = type;
+        dbHelper = new NewsDataBaseHelper(getContext(), "User_"+user_name+".db", null, 1);
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select id, key_words, ifread from Collection_News where ifread = 1", null);
+        Map<String, Integer> keyWordsTimes = new HashMap<>();
+        while (cursor.moveToNext()) {
+            String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
+            String[] keyWordsList = keyWords.split(" ");
+            int len = keyWordsList.length;
+
+            for (int i = 0; i < len; i++) {
+                String tmp = keyWordsList[i];
+                if (!tmp.equals("")) {
+                    if (keyWordsTimes.containsKey(tmp)) {
+                        int tmp_ = keyWordsTimes.get(tmp);
+                        keyWordsTimes.put(tmp, tmp_ + 1);
+                    }
+                    else
+                        keyWordsTimes.put(tmp, 1);
+                }
+                //System.out.println(tmp+" ");
+            }
+        }
+        //System.out.println(keyWordsTimes.size());
+
+        int maxV = 0;
+        String maxK = null;
+        String maxK_mayberemove = null;// 中间值，用于保存每次存在的最大值键，但存在下个值比他大，可用他移除掉，替换成最新的值
+        Map<String, Integer> map2 = new TreeMap();
+        Iterator keys = keyWordsTimes.keySet().iterator();
+        while (keys.hasNext()) {
+            Object key = keys.next();
+            maxK = key.toString();
+            int value = keyWordsTimes.get(key);
+            if (value > maxV) {
+                if (null != maxK_mayberemove) {
+                    map2.clear();
+                }
+                maxV = value;
+                map2.put(maxK, maxV);
+                maxK_mayberemove = maxK;
+            } else if (value == maxV) {
+                map2.put(maxK, maxV);
+            }
+        }
+        Iterator keys2 = map2.keySet().iterator();
+        if (keys2.hasNext()){
+            Object key = keys2.next();
+            maxK = key.toString();
+            type = maxK;
+        }
+        else
+            type = "体育";
+
+
     }
 
     int getIDFromSQL(String title, SQLiteDatabase db) {
@@ -104,30 +157,16 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         return false;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         view = inflater.inflate(R.layout.news, container, false);
 
         user_name = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.LOGIN_DATA, "");//注意一下
-
-        dbHelper = new NewsDataBaseHelper(getContext(), "User_"+user_name+".db", null, 1);
+        init();
         setupViews();
-
-        if (HttpUtils.isNetworkConnected(getContext()))
-        {
-            Toast.makeText(getContext(), "当前网络可用", Toast.LENGTH_SHORT).show();
-            initNews();
-        }
-        else
-        {
-            Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
-            initLocalNews();
-        }
-        //initNews();
-
-
-
+        initNews();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
@@ -169,55 +208,6 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         endDate = "2019-09-05";
     }
 
-    void initLocalNews() {
-        System.out.println("Load local !!!!!!!!!!!!!!!!!!!!!!!!!");
-        final SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, "+
-                "news_pic_url, news_type from Collection_News", null);
-        while (cursor.moveToNext()) {
-            String type_ = cursor.getString(cursor.getColumnIndex("news_type"));
-            String title = cursor.getString(cursor.getColumnIndex("news_title"));
-            if (type_.equals(type)) {
-                typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
-            }
-        }
-
-        //////////////////////////////////以下部分为复制粘贴
-        Thread loadthread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (typeNewsTotal - typeNewsWatched >= newsCount) {////////////////////////
-                    for (int j = 0; j < newsCount; j++) {
-                        //System.out.println("typeNewsWatched is "+typeNewsWatched);
-                        //System.out.println("typeNewsTotal is "+typeNewsTotal);
-                        newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
-                    }
-                }
-                ifEmpty = false;
-                /////
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        newsList.clear();
-                        newsList.addAll(newsListCache);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        });
-
-        loadthread.start();
-
-        try{
-            loadthread.join();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        db.close();
-    }
-
     void initNews()
     {
         final ArrayList<String> titleList = new ArrayList<>();
@@ -242,12 +232,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             e.printStackTrace();
         }
 
-        if (titleList.size() == 0)
-        {
-            initLocalNews();
-            adapter.setOffline();
-            return;
-        }
+/////
         final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         for(int i = 0;i < titleList.size();i++)
@@ -336,7 +321,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                 type.equals("文化") || type.equals("社会") || type.equals("军事") ||
                 type.equals("财经") || type.equals("汽车") || type.equals("娱乐") )
             url = basicString + "size=" + size +"&endDate="+endDate+"&categories=" + type;
-         else
+        else
             url = basicString + "size=" + size +"&endDate="+endDate+"&words=" + type;
 
     }
@@ -365,6 +350,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
 
     private void RefreshNews()
     {
+        init();
 
         while (typeNewsTotal - typeNewsWatched <= 2 * newsCount) {
             int startDay = Integer.parseInt(startDate.substring(8, 10));
@@ -441,6 +427,4 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         },1000);
 
     }
-
-
 }

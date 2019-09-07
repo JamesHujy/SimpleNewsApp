@@ -7,12 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class NewsDataBaseHelper extends SQLiteOpenHelper
 {
     private Context mContext;
-    public static final String CREATE_USER = "create table User (id integer primary key autoincrement, name text, password text)";
+    // public static final String CREATE_USER = "create table User (id integer primary key autoincrement, name text, password text)";
+
+    ///////////////
     public static final String CREATE_COLLECTION_NEWS = "create table Collection_News ("
             + "id integer primary key autoincrement, news_title text, news_date text, "
-            + "news_author text, news_pic_url text, news_url text, news_content text, UNIQUE (news_title))";
+            + "news_author text, news_pic_url text, news_url text, news_content text, key_words text, news_type text, iflike integer, ifread integer, UNIQUE (news_title))";
+    public static final String CREATE_NEWS_HISTORY = "create table News_History (id integer primary key autoincrement, news_id integer, news_title text)";
     //name 数据库名字 factory 查询时传入的cursor version版本 用于升级
-
+    public static final String CREATE_NEWS_LIKE = "create table News_Like (id integer primary key autoincrement, news_id integer, news_title text)";
     public NewsDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
@@ -22,9 +25,12 @@ public class NewsDataBaseHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         //String sql = "create table person(id integer primary key autoincrement,name varchar(64),address varchar(64))";
         //db.execSQL(sql); //完成数据库的创建
-        db.execSQL(CREATE_USER);
-        db.execSQL(CREATE_COLLECTION_NEWS);
 
+        //db.execSQL(CREATE_USER);
+
+        db.execSQL(CREATE_COLLECTION_NEWS);
+        db.execSQL(CREATE_NEWS_HISTORY);
+        db.execSQL(CREATE_NEWS_LIKE);
         //db.execSQL(CREATE_BOOK);
     }
 
