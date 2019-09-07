@@ -149,9 +149,16 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         });
         return view;
     }
-    boolean judgeShieldFromID(int id, SQLiteDatabase db) {
-///;
-        return true   ;
+    boolean judgeShieldFromID(int id, SQLiteDatabase db, String wordShield) {
+        Cursor cursor = db.rawQuery("select id, key_words from Collection_News where id = "+id, null);
+        cursor.moveToFirst();
+        String keyWords = cursor.getColumnName(cursor.getColumnIndex("key_words"));
+        String[] keyWordsList = keyWords.split(" ");
+        for (int i = 0; i < keyWordsList.length; i++) {
+            if (wordShield.contains(keyWordsList[i]))
+                return true;
+        }
+        return false;
     }
     void setupViews()
     {
