@@ -14,7 +14,7 @@ import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
 public class LoginActivity extends Activity
 {
-    private Button loginButton;
+    private Button loginButton, registerButton;
     private EditText username, password;
     private String username_str, password_str;
     private ImageView login_head;
@@ -37,11 +37,21 @@ public class LoginActivity extends Activity
                 judgePassword(username_str, password_str);
             }
         });
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        
     }
 
     void initView()
     {
         loginButton = findViewById(R.id.login_button);
+        registerButton = findViewById(R.id.login_register);
         username = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
         login_head = findViewById(R.id.login_head);
