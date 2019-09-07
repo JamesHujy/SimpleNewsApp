@@ -128,6 +128,13 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
         db.insert("News_History", null, values_);
+
+
+        //newsList.add()
+    }
+    private void recommandNews(String type, SQLiteDatabase db, List<News> newsList) {
+        String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=3&words=" + type;
+
     }
 
     private class LoadPic extends AsyncTask<Object, Void, Bitmap>
