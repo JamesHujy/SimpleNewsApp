@@ -2,6 +2,7 @@ package com.example.simplenewsapp.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class LoginActivity extends Activity
     private String username_str, password_str;
     private ImageView login_head;
 
+    private SQLiteOpenHelper dbHelper;
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
