@@ -99,10 +99,11 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select id, news_id from News_Like", null);
+        Cursor cursor = db.rawQuery("select id, news_title from News_Like", null);
         while (cursor.moveToNext()) {
             if (!cursor.isNull(cursor.getColumnIndex("id"))) {
-                int news_id = cursor.getInt(cursor.getColumnIndex("news_id"));
+                String news_title = cursor.getString(cursor.getColumnIndex("news_title"));
+                int news_id = getIDFromSQL(news_title, db);
                 News news = getNewsFromSQL(news_id, db);
 
                 newsList.add(news);
@@ -157,9 +158,8 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Integer news_id = getIDFromSQL(news_title, db);
-        db.delete("News_Like", "news_id = ?", new String[]{news_id.toString()});
-        //Cursor cursor = db.rawQuery("select id, news_id from News_Like where id = "+news_id, null);
-        //cursor.moveToFirst();
+        db.delete("News_Like", "news_title = ?", new String[]{news_title});
+
         ContentValues values = new ContentValues();
         values.put("iflike", 0);
         db.update("Collection_News", values, "id=? ", new String[] {news_id.toString()});

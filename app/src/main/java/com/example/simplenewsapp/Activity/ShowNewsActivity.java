@@ -109,7 +109,6 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         }
 
 
-        dbHelper = new NewsDataBaseHelper(this, "UserDB.db", null, 1);
         dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
 
         news_title.setText(news_title_str);
@@ -125,7 +124,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         values.put("ifread", 1);
         db.update("Collection_News", values, "id=? ", new String[] {id.toString()});
         ContentValues values_ = new ContentValues();
-        values_.put("news_id", id);
+        //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
         db.insert("News_History", null, values_);
     }
@@ -248,7 +247,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         db.update("Collection_News", values, "id=? ", new String[] {id.toString()});
 
         ContentValues values_ = new ContentValues();
-        values_.put("news_id", id);
+        //values_.put("news_id", id);
+        values_.put("news_title", news_title_str);
         db.insert("News_Like", null, values_);
         //db.update("news_like", values_, "id=? ", new String[] {})
     }
@@ -263,8 +263,9 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         db.update("Collection_News", values, "id=? ", new String[] {id.toString()});
 
         ContentValues values_ = new ContentValues();
-        values_.put("news_id", id);
-        db.delete("News_Like", "news_id = ? ", new String[]{id.toString()});
+        //values_.put("news_id", id);
+        values_.put("news_title", news_title_str);
+        db.delete("News_Like", "news_title_str = ? ", new String[]{news_title_str});
         //db.insert("News_Like", null, values_);
     }
 
