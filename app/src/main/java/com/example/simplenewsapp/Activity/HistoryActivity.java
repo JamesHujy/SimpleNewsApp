@@ -13,17 +13,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.simplenewsapp.Adapter.NewsAdapter;
-import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.R;
-import com.example.simplenewsapp.Activity.ShowNewsActivity;
+import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionActivity extends Activity implements NewsAdapter.CallBack
-{
+public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
     private List<News> newsList = new ArrayList<>();
 
     private ListView listView;
@@ -41,7 +39,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collection);
+        setContentView(R.layout.activity_history);
 
         initView();
         initAdapter();
@@ -57,7 +55,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
                 intent.putExtra("author", newsList.get(i - listView.getHeaderViewsCount()).get_author());
                 intent.putExtra("content", newsList.get(i - listView.getHeaderViewsCount()).get_content());
                 intent.putExtra("pic_url", newsList.get(i - listView.getHeaderViewsCount()).get_picurl());
-                intent.putExtra("source_activity","collection");
+                intent.putExtra("source_activity","history");
                 startActivity(intent);
                 finish();
             }
@@ -96,7 +94,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select id, news_title from News_Like", null);
+        Cursor cursor = db.rawQuery("select id, news_title from News_", null);
         while (cursor.moveToNext()) {
             if (!cursor.isNull(cursor.getColumnIndex("id"))) {
                 String news_title = cursor.getString(cursor.getColumnIndex("news_title"));

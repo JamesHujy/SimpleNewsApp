@@ -10,6 +10,7 @@ public class News {
     private String topic;
     private String author;
     private String content;
+    private String videourl;
     private Bitmap bitmap;
     private boolean clicked = false;
     private boolean collected = false;
@@ -25,6 +26,16 @@ public class News {
 
     }
 
+    public News(String news_title,String news_content, String date, String author, String url, String videourl)
+    {
+        this.news_title = news_title;
+        this.content = news_content;
+        this.date = date;
+        this.author = author;
+        this.news_img_url = url;
+        this.videourl = videourl;
+
+    }
     public News(String news_title,String news_content, String date, String author, String url, Bitmap bitmap)
     {
         this.news_title = news_title;
@@ -55,6 +66,7 @@ public class News {
         return date;
     }
 
+    public String get_videourl(){return videourl;}
     public Bitmap get_pic()
     {
         return bitmap;

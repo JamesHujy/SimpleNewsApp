@@ -176,9 +176,6 @@ public class MainActivity extends AppCompatActivity
                 text_discover.setTextColor(Color.BLACK);
                 //text_mine.setTextColor(Color.BLACK);
 
-                img_main.setImageResource(R.drawable.main_selected);
-                img_video.setImageResource(R.drawable.video);
-                img_dicover.setImageResource(R.drawable.discover);
                 //img_mine.setImageResource(R.drawable.mine);
             }
             break;
@@ -193,9 +190,6 @@ public class MainActivity extends AppCompatActivity
                 text_discover.setTextColor(Color.BLACK);
                 //text_mine.setTextColor(Color.BLACK);
 
-                img_main.setImageResource(R.drawable.main);
-                img_video.setImageResource(R.drawable.video);
-                img_dicover.setImageResource(R.drawable.discover);
                 //img_mine.setImageResource(R.drawable.mine);
             }
             break;
@@ -213,9 +207,6 @@ public class MainActivity extends AppCompatActivity
                 text_main.setTextColor(Color.BLACK);
                 text_video.setTextColor(Color.BLACK);
 
-                img_main.setImageResource(R.drawable.main);
-                img_video.setImageResource(R.drawable.video);
-                img_dicover.setImageResource(R.drawable.discover);
             }
             default:
                 break;
@@ -234,12 +225,9 @@ public class MainActivity extends AppCompatActivity
         //text_mine = findViewById(R.id.text_mine);
         text_discover = findViewById(R.id.text_discover);
 
-        img_main = findViewById(R.id.img_main);
-        img_video = findViewById(R.id.img_video);
-        img_dicover = findViewById(R.id.img_discover);
         //img_mine = findViewById(R.id.img_mine);
 
-        img_main.setImageResource(R.drawable.main_selected);
+
         text_main.setTextColor(Color.RED);
     }
 

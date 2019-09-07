@@ -38,6 +38,7 @@ public class RegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         confirm.setOnClickListener(new View.OnClickListener()
         {
@@ -51,7 +52,7 @@ public class RegisterActivity extends Activity {
                 {
                     Toast.makeText(getBaseContext(), "两次密码不同，请重新输入", Toast.LENGTH_LONG).show();
                 }
-                else if(!judgeExit(username_str))
+                else if(!insertUser(username_str,password_str_first))
                 {
                     insertUser(username_str, password_str_first);
                     ShareInfoUtil.setParam(getBaseContext(), ShareInfoUtil.IS_LOGIN, true);
@@ -61,14 +62,10 @@ public class RegisterActivity extends Activity {
         });
     }
 
-    private boolean judgeExit(String username_str)
-    {
-        return false;
-    }
 
-    private void insertUser(String user_name, String password)
+    private boolean insertUser(String user_name, String password)
     {
-
+        return true;
     }
 
 }

@@ -169,6 +169,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
                 intent.putExtra("author", newsArrayList.get(i - listView.getHeaderViewsCount()).get_author());
                 intent.putExtra("content", newsArrayList.get(i - listView.getHeaderViewsCount()).get_content());
                 intent.putExtra("pic_url", newsArrayList.get(i - listView.getHeaderViewsCount()).get_picurl());
+                intent.putExtra("videourl",newsArrayList.get(i - listView.getHeaderViewsCount()).get_videourl());
                 intent.putExtra("source_activity","search");
                 //newsList.get(i-listView.getHeaderViewsCount()).change_clicked();
                 startActivity(intent);
@@ -254,7 +255,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
                 db.insert("Collection_News",null,values);
             }
 
-            News news = new News(title, content_, date, author, picurl);
+            System.out.println(title+":"+videourl);
+            News news = new News(title, content_, date, author, picurl, videourl);
             newsArrayList.add(news);
         }
 

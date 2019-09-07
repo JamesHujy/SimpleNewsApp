@@ -19,8 +19,10 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.core.app.ShareCompat;
 
@@ -55,6 +57,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private String news_picurl;
     private TextView news_body;
     private String news_body_str;
+    private VideoView videoView;
+    private String videourl;
 
     private ImageView collect_news;
     private ImageView transmit_news;
@@ -93,6 +97,13 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         news_time_str = intent.getStringExtra("date");
         news_picurl = intent.getStringExtra("pic_url");
         source_activity = intent.getStringExtra("source_activity");
+        try
+        {
+            videourl = intent.getStringExtra("videourl");
+        }
+        finally {
+            videourl = "";
+        }
 
         System.out.println(news_title_str);
         String user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");//注意一下
@@ -142,6 +153,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         newsAdapter.notifyDataSetChanged();
         //newsList.add()
     }///
+
     private void recommendNews(String type, SQLiteDatabase db, List<News> newsList) {
         System.out.println("in showNewsActivity.recommendNews "+type);
         newsList.clear();
@@ -305,6 +317,24 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         wechat_share_pic = findViewById(R.id.share_wechat_pic);
         wechat_share_word = findViewById(R.id.share_wechat_word);
         linearLayout = findViewById(R.id.share_pic_layout);
+
+        videoView = findViewById(R.id.content_video);
+        System.out.println("videourl::::::::"+videourl);
+
+        if (videourl != null) {
+            if (!videourl.isEmpty()) {
+                Uri uri = Uri.parse(videourl);
+                videoView.setMediaController(new MediaController(this));
+                videoView.setVideoURI(uri);
+                int widthvideo = getWindowManager().getDefaultDisplay().getWidth();
+                videoView.setLayoutParams(new LinearLayout.LayoutParams(widthvideo,widthvideo*9/16));
+                videoView.start();
+            } else {
+
+                videoView.setVideoURI(null);
+                videoView.setVisibility(View.GONE);
+            }
+        }
 
         listView = findViewById(R.id.listview_recommend);
         newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
