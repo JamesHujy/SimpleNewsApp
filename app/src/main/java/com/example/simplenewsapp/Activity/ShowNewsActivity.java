@@ -57,7 +57,9 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private ImageView collect_news;
     private ImageView transmit_news;
     private ImageView back_to_list;
-    private ImageView wechat_share;
+    private ImageView wechat_share_word;
+    private ImageView wechat_share_pic;
+    private Bitmap bitmap;
 
     private ProgressDialog mDialog;
 
@@ -195,10 +197,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             {
                 System.out.println("NewsImgShow");
                 imageView.setImageBitmap(result);
+                bitmap = result;
             }
-            else{
+            else {
                 System.out.println("NewsImgGone");
                 imageView.setVisibility(View.GONE);
+                bitmap = null;
             }
         }
     }
@@ -213,7 +217,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         collect_news = findViewById(R.id.collect_news);
         transmit_news = findViewById(R.id.transmit_news);
         back_to_list = findViewById(R.id.back_to_list);
-        wechat_share = findViewById(R.id.share_wechat);
+        wechat_share_pic = findViewById(R.id.share_wechat_pic);
+        wechat_share_word = findViewById(R.id.share_wechat_word);
 
         listView = findViewById(R.id.listview_recommend);
         newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
@@ -221,7 +226,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
 
         back_to_list.setOnClickListener(this);
         collect_news.setOnClickListener(this);
-        wechat_share.setOnClickListener(this);
+        wechat_share_word.setOnClickListener(this);
+        if(news_picurl.equals("[]"))
+            wechat_share_pic.setVisibility(View.GONE);
+        else
+            wechat_share_pic.setOnClickListener(this);
+
 
     }
 
@@ -299,23 +309,23 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
                 }
             }
             break;
-            case R.id.share_wechat:
+            case R.id.share_wechat_pic:
             {
-                /*Uri uri_title = ShareAnyWhere.viewToUri(this,news_title);
-                Uri uri_body = ShareAnyWhere.viewToUri(this,news_body);
-                ArrayList<Uri> uriArrayList = new ArrayList<>();
-                uriArrayList.add(uri_title);
-                uriArrayList.add(uri_body);
-                System.out.println("Try sharing");
-                ShareAnyWhere.shareWeichat(this,uriArrayList,"A news");*/
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_STREAM, Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null)));
+                i.setType("image/*");
+                startActivity(Intent.createChooser(i, "lnntql!"));
+            }
+            break;
+            case R.id.share_wechat_word:
+            case R.id.transmit_news:
                 String mimeType="text/plain";
                 ShareCompat.IntentBuilder
                         .from(this)
                         .setType(mimeType)
                         .setChooserTitle("choose app!")
-                        .setText(news_body_str)
+                        .setText("标题:"+news_title+"\n"+news_body_str)
                         .startChooser();
-            }
             break;
             default:
                 break;
