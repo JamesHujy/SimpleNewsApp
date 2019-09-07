@@ -138,7 +138,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         System.out.println("in showNewsActivity.recommendNews "+newsList.size());
         newsAdapter.notifyDataSetChanged();
         //newsList.add()
-    }
+    }///
     private void recommendNews(String type, SQLiteDatabase db, List<News> newsList) {
         System.out.println("in showNewsActivity.recommendNews "+type);
         newsList.clear();
