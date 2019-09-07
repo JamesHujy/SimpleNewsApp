@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
+////
 public class ChannelChooseActivity extends Activity implements ChannelView.OnChannelListener
 {
     private ChannelView channelView;
