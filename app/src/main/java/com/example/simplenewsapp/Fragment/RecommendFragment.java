@@ -82,7 +82,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
                 //System.out.println(tmp+" ");
             }
         }
-        //System.out.println(keyWordsTimes.size());
+        System.out.println(keyWordsTimes.size());
 
         int maxV = 0;
         String maxK = null;
@@ -113,6 +113,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         else
             type = "体育";
 
+        System.out.println(type);
 
     }
 
@@ -139,10 +140,6 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
             String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
             String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
 
-
-            //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
-
-            //Bitmap bitmap = bitmapHelper.getBitmapFromUrl(url_);
             News news = new News(title_, content_, date_, author_, url_);
             return news;
         }

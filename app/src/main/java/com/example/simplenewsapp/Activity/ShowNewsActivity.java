@@ -17,6 +17,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private ImageView wechat_share_pic;
     private String source_activity;
     private Bitmap bitmap;
+
+    private LinearLayout linearLayout;
 
     private boolean collected = false;
 
@@ -197,12 +200,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             {
                 System.out.println("NewsImgShow");
                 imageView.setImageBitmap(result);
-                wechat_share_pic.setVisibility(View.VISIBLE);
+                linearLayout.setVisibility(View.VISIBLE);
             }
             else {
                 System.out.println("NewsImgGone");
                 imageView.setVisibility(View.GONE);
-                wechat_share_pic.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.GONE);
             }
         }
     }
@@ -219,6 +222,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         back_to_list = findViewById(R.id.back_to_list);
         wechat_share_pic = findViewById(R.id.share_wechat_pic);
         wechat_share_word = findViewById(R.id.share_wechat_word);
+        linearLayout = findViewById(R.id.share_pic_layout);
 
         listView = findViewById(R.id.listview_recommend);
         newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
@@ -227,6 +231,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         back_to_list.setOnClickListener(this);
         collect_news.setOnClickListener(this);
         wechat_share_word.setOnClickListener(this);
+        wechat_share_pic.setOnClickListener(this);
         transmit_news.setOnClickListener(this);
 
     }

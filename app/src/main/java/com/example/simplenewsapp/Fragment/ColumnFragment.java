@@ -28,7 +28,9 @@ import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, LoadListView.ILoadListener,
@@ -134,13 +136,6 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             initLocalNews();
         }
 
-
-
-
-        //initNews();
-
-
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
@@ -190,7 +185,8 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         mListView.setAdapter(adapter);
 
         startDate = "2019-09-04";
-        endDate = "2019-09-05";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        endDate = sdf.format(new Date());
     }
 
     void initLocalNews() {

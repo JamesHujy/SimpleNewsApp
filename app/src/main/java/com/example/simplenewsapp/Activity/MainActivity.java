@@ -9,6 +9,8 @@ import com.cheng.channel.Channel;
 import com.example.simplenewsapp.Fragment.DiscoverFragment;
 import com.example.simplenewsapp.Fragment.MainFragment;
 import com.example.simplenewsapp.Fragment.MineFragment;
+import com.example.simplenewsapp.Fragment.RecommendFragment;
+import com.example.simplenewsapp.Fragment.SearchFragment;
 import com.example.simplenewsapp.Fragment.VideoFragment;
 import com.example.simplenewsapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,9 +47,11 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout ll_main, ll_video, ll_discover;
 
     private MainFragment mainFragment;
-    private VideoFragment videoFragment;
+    //private VideoFragment videoFragment;
     //private MineFragment mineFragment;
-    private DiscoverFragment discoverFragment;
+    private RecommendFragment recommendFragment;
+    private SearchFragment searchFragment;
+    //private DiscoverFragment discoverFragment;
     private List<Fragment> fragmentList = new ArrayList<>();
     private ImageView img_main, img_video, img_dicover;
     private TextView text_main, text_video, text_discover;
@@ -178,12 +182,12 @@ public class MainActivity extends AppCompatActivity
                 //img_mine.setImageResource(R.drawable.mine);
             }
             break;
-            case R.id.layout_video: {
-                if (videoFragment == null) {
-                    videoFragment = new VideoFragment();
+            case R.id.layout_recommend: {
+                if (recommendFragment == null) {
+                    recommendFragment = new RecommendFragment();
                 }
-                addFragment(videoFragment);
-                showFragment(videoFragment);
+                addFragment(recommendFragment);
+                showFragment(recommendFragment);
                 text_video.setTextColor(Color.RED);
                 text_main.setTextColor(Color.BLACK);
                 text_discover.setTextColor(Color.BLACK);
@@ -197,12 +201,12 @@ public class MainActivity extends AppCompatActivity
             break;
             case R.id.layout_discover:
             {
-                if(discoverFragment == null)
+                if(searchFragment == null)
                 {
-                    discoverFragment = new DiscoverFragment();
+                    searchFragment = new SearchFragment();
                 }
-                addFragment(discoverFragment);
-                showFragment(discoverFragment);
+                addFragment(searchFragment);
+                showFragment(searchFragment);
 
                 text_discover.setTextColor(Color.RED);
                 //text_mine.setTextColor(Color.BLACK);
@@ -221,7 +225,7 @@ public class MainActivity extends AppCompatActivity
     void initView()
     {
         ll_main = findViewById(R.id.layout_main);
-        ll_video = findViewById(R.id.layout_video);
+        ll_video = findViewById(R.id.layout_recommend);
         ll_discover = findViewById(R.id.layout_discover);
         //ll_mine = findViewById(R.id.layout_mine);
 
