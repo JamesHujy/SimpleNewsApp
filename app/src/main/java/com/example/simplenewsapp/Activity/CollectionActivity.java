@@ -57,7 +57,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
                 intent.putExtra("author", newsList.get(i - listView.getHeaderViewsCount()).get_author());
                 intent.putExtra("content", newsList.get(i - listView.getHeaderViewsCount()).get_content());
                 intent.putExtra("pic_url", newsList.get(i - listView.getHeaderViewsCount()).get_picurl());
-                newsList.get(i-listView.getHeaderViewsCount()).change_clicked();
+                intent.putExtra("source_activity","collection");
                 startActivity(intent);
                 for(int k = 0;k < 100000000;k++)
                 {

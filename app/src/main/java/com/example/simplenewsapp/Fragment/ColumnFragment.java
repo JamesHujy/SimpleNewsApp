@@ -151,6 +151,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                 intent.putExtra("author", newsList.get(i - mListView.getHeaderViewsCount()).get_author());
                 intent.putExtra("content", newsList.get(i - mListView.getHeaderViewsCount()).get_content());
                 intent.putExtra("pic_url", newsList.get(i - mListView.getHeaderViewsCount()).get_picurl());
+                intent.putExtra("source_activity","mainlist");
                 newsList.get(i-mListView.getHeaderViewsCount()).change_clicked();
                 startActivity(intent);
                 for(int k = 0;k < 100000000;k++)

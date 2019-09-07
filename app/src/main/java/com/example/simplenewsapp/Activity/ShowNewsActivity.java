@@ -59,9 +59,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private ImageView back_to_list;
     private ImageView wechat_share_word;
     private ImageView wechat_share_pic;
+    private String source_activity;
     private Bitmap bitmap;
-
-    private ProgressDialog mDialog;
 
     private boolean collected = false;
 
@@ -89,6 +88,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         news_author_str = intent.getStringExtra("author");
         news_time_str = intent.getStringExtra("date");
         news_picurl = intent.getStringExtra("pic_url");
+        source_activity = intent.getStringExtra("source_activity");
 
         System.out.println(news_title_str);
         String user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");//注意一下
@@ -197,12 +197,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             {
                 System.out.println("NewsImgShow");
                 imageView.setImageBitmap(result);
-                bitmap = result;
+                wechat_share_pic.setVisibility(View.VISIBLE);
             }
             else {
                 System.out.println("NewsImgGone");
                 imageView.setVisibility(View.GONE);
-                bitmap = null;
+                wechat_share_pic.setVisibility(View.GONE);
             }
         }
     }
@@ -227,11 +227,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         back_to_list.setOnClickListener(this);
         collect_news.setOnClickListener(this);
         wechat_share_word.setOnClickListener(this);
-        if(news_picurl.equals("[]"))
-            wechat_share_pic.setVisibility(View.GONE);
-        else
-            wechat_share_pic.setOnClickListener(this);
-
+        transmit_news.setOnClickListener(this);
 
     }
 
@@ -286,7 +282,11 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             case R.id.back_to_list:
             {
                 finish();
-                startActivity(new Intent(this, CollectionActivity.class));
+                if (source_activity.equals("collection"))
+                {
+                    startActivity(new Intent(this, CollectionActivity.class));
+                }
+                finish();
             }
             break;
             case R.id.collect_news:

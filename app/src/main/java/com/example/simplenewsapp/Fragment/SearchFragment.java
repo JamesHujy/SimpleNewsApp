@@ -66,8 +66,9 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
 
         view = inflater.inflate(R.layout.fragment_search, container, false);
-        initSearch();
         initShow();
+        initSearch();
+
 
         return view;
     }
@@ -78,6 +79,23 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         mDatebase =new SearchDataBase(this.getContext(), user_name+"_search_record.db");
         mbtn_serarch = view.findViewById(R.id.btn_serarch);
         met_search = view.findViewById(R.id.et_search);
+        met_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         mtv_deleteAll = view.findViewById(R.id.tv_deleteAll);
         mtv_deleteAll.setOnClickListener(new View.OnClickListener() {
@@ -151,50 +169,15 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
                 intent.putExtra("author", newsArrayList.get(i - listView.getHeaderViewsCount()).get_author());
                 intent.putExtra("content", newsArrayList.get(i - listView.getHeaderViewsCount()).get_content());
                 intent.putExtra("pic_url", newsArrayList.get(i - listView.getHeaderViewsCount()).get_picurl());
+                intent.putExtra("source_activity","search");
                 //newsList.get(i-listView.getHeaderViewsCount()).change_clicked();
                 startActivity(intent);
             }
         });
     }
 
-
-    int getIDFromSQL(String title, SQLiteDatabase db) {
-        Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);
-        while (cursor.moveToNext()) {
-            String title_ = cursor.getString(cursor.getColumnIndex("news_title"));
-            if (title.equals(title_)) {
-                return cursor.getInt(cursor.getColumnIndex("id"));
-            }
-        }
-        return -1;
-    }
-
-    News getNewsFromSQL(int id, SQLiteDatabase db) {
-        Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, " +
-                "news_pic_url from Collection_News where id = " + id, null);
-        cursor.moveToFirst();
-        if (!cursor.isNull(cursor.getColumnIndex("id"))) {
-
-            String title_ = cursor.getString(cursor.getColumnIndex("news_title"));
-            //System.out.println("in get News from SQL. title is "+title_);
-            String date_ = cursor.getString(cursor.getColumnIndex("news_date"));
-            String content_ = cursor.getString(cursor.getColumnIndex("news_content"));
-            String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
-            String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
-            //System.out.println("test cursor author is " + author_);
-            //System.out.println("test cursor url is " + url_);
-
-            //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
-
-            //Bitmap bitmap = bitmapHelper.getBitmapFromUrl(url_);
-            News news = new News(title_, content_, date_, author_, url_);
-            return news;
-        }
-        return new News("", "", "", "", "");
-        //return -1;
-    }
-
-    boolean checkIfNew(String title, SQLiteDatabase db) {
+    boolean checkIfNew(String title, SQLiteDatabase db)
+    {
         Cursor cursor = db.query("Collection_News", new String[]{"news_title"}, "news_title = ?", new String[]{title},
                 null, null, null);
         if (cursor.getCount()==0)
@@ -202,7 +185,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         return false;
     }
 
-    private void setUrl(String type, int size) {
+    private void setUrl(String type, int size)
+    {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         endDate = sdf.format(new Date());
         System.out.println("Date:"+endDate);
@@ -243,14 +227,9 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         }
 
         System.out.println(titleList.size());
+        newsArrayList.clear();
         for(int i = 0; i < titleList.size();i++)
         {
-            /*String title = titleList.get(i);
-            String body = contentList.get(i);
-            String date = datesList.get(i);
-            String author = authorList.get(i);
-            String picurl = picurlList.get(i);
-            String videourl = videourlList.get(i);*/
             String title = titleList.get(i);
             String content_ = contentList.get(i);
             String date = datesList.get(i);
@@ -258,7 +237,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
             String picurl = picurlList.get(i);
             String keywords = keywordList.get(i);
             String videourl = videourlList.get(i);
-            if (checkIfNew(title, db)) {
+            if (checkIfNew(title, db))
+            {
                 ContentValues values = new ContentValues();
                 values.put("news_title",title);
                 values.put("news_date",date);
@@ -271,12 +251,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
                 values.put("iflike", 0);
                 values.put("ifread", 0);
 
-
-                //System.out.println("news_pic_url"+picurl);
-
                 db.insert("Collection_News",null,values);
-                /////
-                //typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
             }
 
             News news = new News(title, content_, date, author, picurl);
