@@ -149,7 +149,10 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         });
         return view;
     }
-
+    boolean judgeShieldFromID(int id, SQLiteDatabase db) {
+///;
+        return true   ;
+    }
     void setupViews()
     {
         mListView = view.findViewById(R.id.lv_main);
