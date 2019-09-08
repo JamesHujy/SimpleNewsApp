@@ -174,8 +174,9 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
         ///System.out.println("in columnFragment.judgeShieldFromID "+keyWords);
         String[] shieldWordsList = wordShield.split(" ");
-        ///System.out.println("in columnFragment.judgeShieldFromID "+wordShield);
-        if (shieldWordsList.length == 0)
+        System.out.println("in columnFragment.judgeShieldFromID "+wordShield);
+        System.out.println("in columnFragment.judgeShield "+shieldWordsList.length);
+        if (shieldWordsList.length == 1 && shieldWordsList[0].equals(""))
             return false;
         for (int i = 0; i < shieldWordsList.length; i++) {
             //System.out.println("in columnFragment.judgeShieldFromID "+shieldWordsList[i]);
