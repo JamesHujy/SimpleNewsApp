@@ -13,6 +13,7 @@ import com.example.simplenewsapp.Fragment.RecommendFragment;
 import com.example.simplenewsapp.Fragment.SearchFragment;
 
 import com.example.simplenewsapp.R;
+import com.example.simplenewsapp.Utils.ShareInfoUtil;
 import com.example.simplenewsapp.Utils.ThemeManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     //private MineFragment mineFragment;
     private RecommendFragment recommendFragment;
     private SearchFragment searchFragment;
+    private LinearLayout linearLayout;
     //private DiscoverFragment discoverFragment;
     private List<Fragment> fragmentList = new ArrayList<>();
     private ImageView img_main, img_video, img_dicover;
@@ -137,7 +139,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_nightmode) {
             ThemeManager.setThemeMode(ThemeManager.getThemeMode() == ThemeManager.ThemeMode.DAY
                     ? ThemeManager.ThemeMode.NIGHT : ThemeManager.ThemeMode.DAY);
-            mainFragment.setNightMode();
+            System.out.println("ChangeState");
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
         else if (id == R.id.nav_collect) {
             Intent intent = new Intent(this,CollectionActivity.class);
@@ -233,10 +237,15 @@ public class MainActivity extends AppCompatActivity
         //ll_mine = findViewById(R.id.layout_mine);
 
         text_main = findViewById(R.id.text_main);
+        text_main.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
         text_video = findViewById(R.id.text_video);
+        text_video.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
         //text_mine = findViewById(R.id.text_mine);
         text_discover = findViewById(R.id.text_discover);
+        text_discover.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
 
+        linearLayout = findViewById(R.id.column);
+        linearLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
         //img_mine = findViewById(R.id.img_mine);
 
 
@@ -245,21 +254,17 @@ public class MainActivity extends AppCompatActivity
 
     private void initFragment()
     {
+        String getChannel = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.CHOSEN_CHANNEL, "");//注意一下
+        String[] strings = getChannel.split(" ");
         ArrayList<String> listObj = new ArrayList<>();
-        try
-        {
-            listObj = getIntent().getStringArrayListExtra("chosenChannel");
 
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-        finally {
-            mainFragment = new MainFragment(listObj);
-            addFragment(mainFragment);
-            showFragment(mainFragment);
-        }
+        for(int i = 0; i < strings.length;i++)
+            listObj.add(strings[i]);
+
+        mainFragment = new MainFragment(listObj);
+        addFragment(mainFragment);
+        showFragment(mainFragment);
+
 
 
     }

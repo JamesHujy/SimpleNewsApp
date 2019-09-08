@@ -68,7 +68,11 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
 
     public void setNightMode()
     {
-        adapter.setNightMode();
+        for(News news:newsList)
+            news.changestate();
+        adapter.notifyDataSetChanged();
+        for(News news:newsList)
+            news.restorestate();
     }
     int getIDFromSQL(String title, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);
@@ -120,6 +124,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        System.out.println("Create Column fragment VIew ");
         view = inflater.inflate(R.layout.news, container, false);
 
         user_name = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.LOGIN_DATA, "");//注意一下

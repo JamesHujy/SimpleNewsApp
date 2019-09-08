@@ -3,17 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/search_layout"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="horizontal"
+        android:id="@+id/head_line"
         android:background="	#F5F5F5">
         <RelativeLayout
             android:textColor="#999999"
             android:textSize="14sp"
             android:layout_marginTop="10dp"
+            android:id="@+id/relative_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp">
 

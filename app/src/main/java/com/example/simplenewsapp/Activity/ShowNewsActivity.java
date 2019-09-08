@@ -16,10 +16,12 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -34,6 +36,7 @@ import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareAnyWhere;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -63,21 +66,63 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private ImageView collect_news;
     private ImageView transmit_news;
     private ImageView back_to_list;
-    private ImageView wechat_share_word;
-    private ImageView wechat_share_pic;
+    private Button wechat_share_word;
+    private Button wechat_share_pic;
     private String source_activity;
     private Bitmap bitmap;
 
     private LinearLayout linearLayout;
 
+    private LinearLayout back_column;
+    private ScrollView show_news;
+    private LinearLayout completeLayout;
+
     private boolean collected = false;
 
     private NewsDataBaseHelper dbHelper;
+
 
     private ListView listView;
     private List<News> newsList = new ArrayList<>();
     private NewsAdapter newsAdapter;
 
+    private void initView()
+    {
+        news_title = findViewById(R.id.content_title);
+        news_author = findViewById(R.id.content_author);
+        news_time = findViewById(R.id.content_time);
+        news_body = findViewById(R.id.content_body);
+        news_pic = findViewById(R.id.content_picture);
+        collect_news = findViewById(R.id.collect_news);
+        transmit_news = findViewById(R.id.transmit_news);
+        back_to_list = findViewById(R.id.back_to_list);
+        wechat_share_pic = findViewById(R.id.share_wechat_pic);
+        wechat_share_word = findViewById(R.id.share_wechat_word);
+        linearLayout = findViewById(R.id.share_pic_layout);
+
+        back_column = findViewById(R.id.back_column);
+        back_column.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+        videoView = findViewById(R.id.content_video);
+
+        show_news = findViewById(R.id.show_news);
+        show_news.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+
+        completeLayout = findViewById(R.id.activity_show);
+        completeLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+        news_title.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
+        news_author.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.colorGrey)));
+        news_time.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.colorGrey)));
+        news_body.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
+
+        //listView = findViewById(R.id.listview_recommend);
+        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
+
+        back_to_list.setOnClickListener(this);
+        collect_news.setOnClickListener(this);
+        wechat_share_word.setOnClickListener(this);
+        wechat_share_pic.setOnClickListener(this);
+        transmit_news.setOnClickListener(this);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -303,34 +348,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    private void initView()
-    {
 
-
-
-        news_title = findViewById(R.id.content_title);
-        news_author = findViewById(R.id.content_author);
-        news_time = findViewById(R.id.content_time);
-        news_body = findViewById(R.id.content_body);
-        news_pic = findViewById(R.id.content_picture);
-        collect_news = findViewById(R.id.collect_news);
-        transmit_news = findViewById(R.id.transmit_news);
-        back_to_list = findViewById(R.id.back_to_list);
-        wechat_share_pic = findViewById(R.id.share_wechat_pic);
-        wechat_share_word = findViewById(R.id.share_wechat_word);
-        linearLayout = findViewById(R.id.share_pic_layout);
-
-        videoView = findViewById(R.id.content_video);
-
-        listView = findViewById(R.id.listview_recommend);
-        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
-
-        back_to_list.setOnClickListener(this);
-        collect_news.setOnClickListener(this);
-        wechat_share_word.setOnClickListener(this);
-        wechat_share_pic.setOnClickListener(this);
-        transmit_news.setOnClickListener(this);
-    }
 
     private void loadVideo()
     {

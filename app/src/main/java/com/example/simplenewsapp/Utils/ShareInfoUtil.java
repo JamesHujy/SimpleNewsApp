@@ -12,6 +12,8 @@ public class ShareInfoUtil {
 
     public static final String MASK_WORDS = "";
 
+    public static final String CHOSEN_CHANNEL = "isChoosen";
+
 
     public static void setParam(Context context, String key, Object object) {
 

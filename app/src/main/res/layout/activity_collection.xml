@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/collection_layout"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:id="@+id/headline"
         android:orientation="horizontal">
 
         <ImageView
@@ -20,8 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="115dp"
+            android:gravity="center"
             android:text="我的收藏"
             android:textColor="#000000"
             android:id="@+id/head_title"

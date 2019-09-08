@@ -36,6 +36,7 @@ import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.SearchAdapter;
 import com.example.simplenewsapp.Utils.SearchDataBase;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,6 +63,46 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
     private NewsAdapter mNewsAdapter;
 
     private NewsDataBaseHelper dbHelper;
+
+    private LinearLayout searchLayout;
+    private RelativeLayout relativeLayout;
+
+    private void initShow()
+    {
+        //mLoadListView = view.findViewById(R.id.search_result);
+
+
+        searchLayout = view.findViewById(R.id.search_layout);
+        searchLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.backgroundColor)));
+        relativeLayout = view.findViewById(R.id.relative_layout);
+        relativeLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.backgroundColor)));
+
+        listView = view.findViewById(R.id.listview_search);
+        newsArrayList = new ArrayList<>();
+        linearLayout = view.findViewById(R.id.history_info);
+        linearLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.backgroundColor)));
+
+        mNewsAdapter = new NewsAdapter(getContext(), R.layout.news_item, newsArrayList,this);
+        listView.setAdapter(mNewsAdapter);
+        listView.setVisibility(View.GONE);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
+                Intent intent = new Intent(getContext(), ShowNewsActivity.class);
+                intent.putExtra("title", newsArrayList.get(i - listView.getHeaderViewsCount()).get_title());
+                intent.putExtra("date", newsArrayList.get(i - listView.getHeaderViewsCount()).get_date());
+                intent.putExtra("author", newsArrayList.get(i - listView.getHeaderViewsCount()).get_author());
+                intent.putExtra("content", newsArrayList.get(i - listView.getHeaderViewsCount()).get_content());
+                intent.putExtra("pic_url", newsArrayList.get(i - listView.getHeaderViewsCount()).get_picurl());
+                intent.putExtra("videourl",newsArrayList.get(i - listView.getHeaderViewsCount()).get_videourl());
+                intent.putExtra("source_activity","search");
+                //newsList.get(i-listView.getHeaderViewsCount()).change_clicked();
+                startActivity(intent);
+            }
+        });
+    }
 
     public SearchFragment(){}
     @Override
@@ -108,6 +149,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
             }
         });
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mRecyclerView);
+        mRecyclerView.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.backgroundColor)));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mSearchAdapter =new SearchAdapter(mDatebase.queryData(""),this.getContext());
         mSearchAdapter.setRvItemOnclickListener(new BaseSearchAdapter.RvItemOnclickListener(){
@@ -148,36 +190,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         });
     }
 
-    private void initShow()
-    {
-        //mLoadListView = view.findViewById(R.id.search_result);
 
-
-        listView = view.findViewById(R.id.listview_search);
-        newsArrayList = new ArrayList<>();
-        linearLayout = view.findViewById(R.id.history_info);
-
-        mNewsAdapter = new NewsAdapter(getContext(), R.layout.news_item, newsArrayList,this);
-        listView.setAdapter(mNewsAdapter);
-        listView.setVisibility(View.GONE);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-            {
-                Intent intent = new Intent(getContext(), ShowNewsActivity.class);
-                intent.putExtra("title", newsArrayList.get(i - listView.getHeaderViewsCount()).get_title());
-                intent.putExtra("date", newsArrayList.get(i - listView.getHeaderViewsCount()).get_date());
-                intent.putExtra("author", newsArrayList.get(i - listView.getHeaderViewsCount()).get_author());
-                intent.putExtra("content", newsArrayList.get(i - listView.getHeaderViewsCount()).get_content());
-                intent.putExtra("pic_url", newsArrayList.get(i - listView.getHeaderViewsCount()).get_picurl());
-                intent.putExtra("videourl",newsArrayList.get(i - listView.getHeaderViewsCount()).get_videourl());
-                intent.putExtra("source_activity","search");
-                //newsList.get(i-listView.getHeaderViewsCount()).change_clicked();
-                startActivity(intent);
-            }
-        });
-    }
 
     boolean checkIfNew(String title, SQLiteDatabase db)
     {

@@ -15,6 +15,7 @@ public class News {
     private boolean clicked = false;
     private boolean collected = false;
     private String databaseId;
+    private int statechange = 0;
 
     public News(String news_title,String news_content, String date, String author, String url)
     {
@@ -49,6 +50,21 @@ public class News {
     public String get_title()
     {
         return news_title;
+    }
+
+    public void changestate()
+    {
+        statechange = 1;
+    }
+
+    public void restorestate()
+    {
+        statechange = 0;
+    }
+
+    public int getStatechange()
+    {
+        return statechange;
     }
 
     public String get_author()

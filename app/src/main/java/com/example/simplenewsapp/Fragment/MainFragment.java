@@ -38,17 +38,6 @@ public class MainFragment extends Fragment implements View.OnClickListener
     public MainFragment(){}
 
 
-    public void setNightMode()
-    {
-        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
-        tabLayout.setTabTextColors(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)),
-                getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorRed)));
-        for(ColumnFragment columnFragment:fragmentList)
-        {
-            columnFragment.setNightMode();
-        }
-
-    }
     public MainFragment(List<String> channelList)
     {
         titleList = new ArrayList<>();
@@ -86,6 +75,9 @@ public class MainFragment extends Fragment implements View.OnClickListener
         viewPager = view.findViewById(R.id.view_pager);
         expandButton = view.findViewById(R.id.expand);
         expandButton.setOnClickListener(this);
+        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
+        tabLayout.setTabTextColors(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)),
+                getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorRed)));
     }
 
     private void initFragment()

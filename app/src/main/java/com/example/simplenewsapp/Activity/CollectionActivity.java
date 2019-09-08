@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.example.simplenewsapp.R;
 
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,36 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
 
     private int newsCount = 8;
 
+    private LinearLayout collection_layout;
+    private LinearLayout headline;
+
 
     NewsDataBaseHelper dbHelper;
     String user_name;
+
+    private void initView()
+    {
+        listView = findViewById(R.id.listview_collection);
+        user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");
+        dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
+
+        collection_layout = findViewById(R.id.collection_layout);
+        headline = findViewById(R.id.headline);
+
+        collection_layout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+        headline.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+        textView = findViewById(R.id.head_title);
+        textView.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
+        exitButton = findViewById(R.id.exit_collection);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -184,22 +213,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
         });
     }
 
-    private void initView()
-    {
-        listView = findViewById(R.id.listview_collection);
-        user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");
-        dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
 
-        textView = findViewById(R.id.head_title);
-        exitButton = findViewById(R.id.exit_collection);
-
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
 
     private void initAdapter()
     {

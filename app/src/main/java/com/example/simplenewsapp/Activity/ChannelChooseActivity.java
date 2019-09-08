@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.cheng.channel.Channel;
 import com.cheng.channel.ChannelView;
 import com.example.simplenewsapp.R;
+import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -88,14 +89,14 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
     public void channelEditFinish(List<Channel> channelList)
     {
         Intent intent = new Intent(this, MainActivity.class);
+        String sending = "";
         List<Channel> channel = channelView.getMyChannel();
-        ArrayList<String> channelNames = new ArrayList<>();
 
         for(Channel channelitem:channel)
         {
-            channelNames.add(channelitem.getChannelName());
+            sending = sending + channelitem.getChannelName() + " ";
         }
-        intent.putStringArrayListExtra("chosenChannel", channelNames);
+        ShareInfoUtil.setParam(ChannelChooseActivity.this, ShareInfoUtil.CHOSEN_CHANNEL, sending);
         startActivity(intent);
         finish();
     }

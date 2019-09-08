@@ -50,11 +50,6 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         public void click(View view);
     }
 
-
-    public void setNightMode()
-    {
-        viewHolder.newsItem.setBackgroundColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
-    }
     private class LoadPic extends AsyncTask<Object, Void, Bitmap>
     {
         String url;
@@ -153,8 +148,11 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             view.setTag(viewHolder);
 
             viewHolder.newsItem.setBackgroundColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
-
-        } else {
+            viewHolder.newsTitle.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)));
+            viewHolder.newsAuthor.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));
+            viewHolder.newsDate.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));
+        }
+        else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
@@ -168,9 +166,9 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         viewHolder.newsTitle.setText(news.get_title());
 
         if (news.get_click())
-            viewHolder.newsTitle.setTextColor(Color.parseColor("#696969"));
+            viewHolder.newsTitle.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));
         else
-            viewHolder.newsTitle.setTextColor(Color.parseColor("#000000"));
+            viewHolder.newsTitle.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)));
         viewHolder.newsAuthor.setText(news.get_author());
         viewHolder.newsDate.setText(news.get_date());
 

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:text="标题"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/news_item_img"

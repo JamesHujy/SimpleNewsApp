@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="	#FFFAFA"
+    android:id="@+id/activity_show"
     android:orientation="vertical">
     <LinearLayout
         android:layout_height="35dp"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:background="	#F5F5F5">
+        android:id="@+id/back_column"
+        android:background="#F5F5F5">
         <ImageView
             android:id="@+id/back_to_list"
             android:layout_height="30dp"
@@ -88,18 +89,13 @@
                 android:orientation="horizontal">
 
 
-                <TextView
+                <Button
                     android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:textColor="		#D3D3D3"
-                    android:gravity="center_vertical"
-                    android:text="分享文字至："/>
-                <ImageView
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="2dp"
                     android:id="@+id/share_wechat_word"
-                    android:src="@drawable/wechat"/>
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="分享文字"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -110,27 +106,21 @@
                 android:layout_margin="10dp"
                 android:orientation="horizontal">
 
-
-                <TextView
+                <Button
                     android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:textColor="		#D3D3D3"
-                    android:gravity="center_vertical"
-                    android:text="分享照片至："/>
-                <ImageView
-                    android:layout_height="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="2dp"
                     android:id="@+id/share_wechat_pic"
-                    android:src="@drawable/wechat"/>
+                    android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="分享照片"/>
             </LinearLayout>
 
+            <!--
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
-                android:text="---相关推荐---"
+                android:text="-相关推荐-"
                 android:textSize="20dp"
                 android:textColor="@color/colorBlack"/>
 
@@ -140,6 +130,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="10">
             </ListView>
+            -->
+
 
         </LinearLayout>
 
