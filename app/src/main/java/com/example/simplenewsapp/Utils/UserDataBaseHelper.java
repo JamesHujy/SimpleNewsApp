@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class UserDataBaseHelper extends SQLiteOpenHelper {
     private Context mContext;
-    public static final String CREATE_USER = "create table User (id integer primary key autoincrement, name text, password text)";
+    public static final String CREATE_USER = "create table User (id integer primary key autoincrement, name text, password text, category text)";
 
     public UserDataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
-    }
+    }//
     public void onCreate(SQLiteDatabase db) {
         //String sql = "create table person(id integer primary key autoincrement,name varchar(64),address varchar(64))";
         //db.execSQL(sql); //完成数据库的创建
