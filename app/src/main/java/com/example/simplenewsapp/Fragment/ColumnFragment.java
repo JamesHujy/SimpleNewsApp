@@ -137,7 +137,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             Toast.makeText(getContext(), "当前网络可用", Toast.LENGTH_SHORT).show();
             setupViews();
             System.out.println("connected!");
-            initNews();
+            initNews(1);
         }
         else
         {
@@ -172,11 +172,13 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         Cursor cursor = db.rawQuery("select id, key_words from Collection_News where id = "+id, null);
         cursor.moveToFirst();
         String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
-        System.out.println("in columnFragment.judgeShieldFromID "+keyWords);
+        ///System.out.println("in columnFragment.judgeShieldFromID "+keyWords);
         String[] shieldWordsList = wordShield.split(" ");
-        System.out.println("in columnFragment.judgeShieldFromID "+wordShield);
+        ///System.out.println("in columnFragment.judgeShieldFromID "+wordShield);
+        if (shieldWordsList.length == 0)
+            return false;
         for (int i = 0; i < shieldWordsList.length; i++) {
-            System.out.println("in columnFragment.judgeShieldFromID "+shieldWordsList[i]);
+            //System.out.println("in columnFragment.judgeShieldFromID "+shieldWordsList[i]);
             if (keyWords.contains(shieldWordsList[i]))
                 return true;
         }
@@ -228,6 +230,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                     for (int j = 0; j < newsCount; j++) {
                         //System.out.println("typeNewsWatched is "+typeNewsWatched);
                         //System.out.println("typeNewsTotal is "+typeNewsTotal);
+                        System.out.println("in initLocalNews() newsListCache "+newsListCache.size());
                         newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
                     }
                 }
@@ -256,7 +259,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         db.close();
     }
 
-    void initNews()
+    void initNews(final int flag)//1则插入 0则不插入cache
     {
         final ArrayList<String> titleList = new ArrayList<>();
         final ArrayList<String> contentList = new ArrayList<>();
@@ -351,7 +354,8 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                     for (int j = 0; j < newsCount; j++) {
                         //System.out.println("typeNewsWatched is "+typeNewsWatched);
                         //System.out.println("typeNewsTotal is "+typeNewsTotal);
-                        if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
+                        System.out.println("in initNews newsListCache "+newsListCache.size());
+                        if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask) && flag == 1)
                             newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
                     }
                 }
@@ -424,21 +428,28 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
             endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
             setUrl(2000);
-            initNews();
+            initNews(0);
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //newsListCache.clear();
-        newsList.clear();
+       // newsList.clear();
+        //for (int i = 0; i < newsCount; i++)
+        //    newsListCache
         typeNewsWatched += newsCount;
+        System.out.println("columnFragment.loadNews"+typeNewsWatched);
         final String mask = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.MASK_WORDS, "");
         if (typeNewsTotal - typeNewsWatched >= newsCount) {
             for (int j = 0; j < newsCount; j++) {
+                System.out.println("in loadnews newsListCache "+newsListCache.size());
                 if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
+                   // newsList.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
                     newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
             }
         }
+        newsList.clear();
         newsList.addAll(newsListCache);
         adapter.notifyDataSetChanged();
+        System.out.println("??????in loadnews newsListCache "+newsListCache.size());
     }
 
     private void RefreshNews()
@@ -465,7 +476,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
             endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
             setUrl(2000);
-            initNews();
+            initNews(0);
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         newsListCache.clear();
@@ -477,6 +488,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             tmp = Math.min(tmp, newsCount);
 
             for (int j = 0; j < tmp; j++) {
+                System.out.println("in refreshnews newsListCache "+newsListCache.size());
                 if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
                     newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
             }

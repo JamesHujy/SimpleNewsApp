@@ -175,7 +175,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         user_name = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.LOGIN_DATA, "");//注意一下
         init();
         setupViews();
-        initNews();
+        initNews(1);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
@@ -218,7 +218,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         endDate = "2019-09-05";
     }
 
-    void initNews()
+    void initNews(final int flag)
     {
         final ArrayList<String> titleList = new ArrayList<>();
         final ArrayList<String> contentList = new ArrayList<>();
@@ -312,6 +312,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
                     for (int j = 0; j < newsCount; j++) {
                         //System.out.println("typeNewsWatched is "+typeNewsWatched);
                         //System.out.println("typeNewsTotal is "+typeNewsTotal);
+                        if (flag == 1)
                         newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
                     }
                 }
@@ -383,7 +384,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
             startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
             endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
             setUrl(2000);
-            initNews();
+            initNews(0);
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //newsListCache.clear();
@@ -423,7 +424,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
             startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
             endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
             setUrl(2000);
-            initNews();
+            initNews(0);
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         newsListCache.clear();
