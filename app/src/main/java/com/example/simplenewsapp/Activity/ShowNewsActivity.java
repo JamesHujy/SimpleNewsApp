@@ -459,10 +459,16 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             break;
             case R.id.share_wechat_pic:
             {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_STREAM, Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null)));
-                i.setType("image/*");
-                startActivity(Intent.createChooser(i, "lnntql!"));
+                try{
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.putExtra(Intent.EXTRA_STREAM, Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null)));
+                    i.setType("image/*");
+                    startActivity(Intent.createChooser(i, "lnntql!"));
+                }
+                finally {
+                    Toast.makeText(this,"分享失败",Toast.LENGTH_SHORT).show();
+                }
+
             }
             break;
             case R.id.share_wechat_word:
