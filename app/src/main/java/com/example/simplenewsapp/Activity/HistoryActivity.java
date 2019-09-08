@@ -21,7 +21,8 @@ import com.example.simplenewsapp.Utils.ShareInfoUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
+public class HistoryActivity extends Activity implements NewsAdapter.CallBack
+{
     private List<News> newsList = new ArrayList<>();
 
     private ListView listView;
@@ -35,6 +36,7 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
 
     NewsDataBaseHelper dbHelper;
     String user_name;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -45,7 +47,7 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
         initAdapter();
 
         initNews();
-
+        listView.setAdapter(newsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
@@ -134,8 +136,8 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
 
     private void initAdapter()
     {
-        newsAdapter = new NewsAdapter(this, R.layout.news_item,newsList,this);
-        listView.setAdapter(newsAdapter);
+        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList,this);
+
     }
     int getIDFromSQL(String title, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);

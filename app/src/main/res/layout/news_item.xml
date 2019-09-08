@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
     android:descendantFocusability="blocksDescendants"
+    android:id="@+id/news_item"
     android:orientation="vertical">
 
     <LinearLayout

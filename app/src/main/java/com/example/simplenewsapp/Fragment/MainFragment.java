@@ -15,6 +15,7 @@ import com.example.simplenewsapp.Activity.ChannelChooseActivity;
 import com.example.simplenewsapp.Activity.MainActivity;
 import com.example.simplenewsapp.Adapter.FragmentAdapter;
 import com.example.simplenewsapp.R;
+import com.example.simplenewsapp.Utils.ThemeManager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class MainFragment extends Fragment implements View.OnClickListener
     private ImageView expandButton;
 
     private List<String> titleList;
-    private List<Fragment> fragmentList;
+    private List<ColumnFragment> fragmentList;
 
     private FragmentAdapter fragmentAdapter;
 
@@ -39,6 +40,13 @@ public class MainFragment extends Fragment implements View.OnClickListener
 
     public void setNightMode()
     {
+        tabLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
+        tabLayout.setTabTextColors(getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)),
+                getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorRed)));
+        for(ColumnFragment columnFragment:fragmentList)
+        {
+            columnFragment.setNightMode();
+        }
 
     }
     public MainFragment(List<String> channelList)

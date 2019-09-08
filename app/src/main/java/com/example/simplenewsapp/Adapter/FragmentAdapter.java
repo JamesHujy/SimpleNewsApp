@@ -8,15 +8,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.simplenewsapp.Fragment.ColumnFragment;
 import com.example.simplenewsapp.R;
 
 import java.util.List;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
-    private List<Fragment> fragmentList;
+    private List<ColumnFragment> fragmentList;
     private List<String> titleList;
 
-    public FragmentAdapter(FragmentManager fragmentManager, List<Fragment> fragmentList,
+    public FragmentAdapter(FragmentManager fragmentManager, List<ColumnFragment> fragmentList,
                            List<String> titleList)
     {
         super(fragmentManager);

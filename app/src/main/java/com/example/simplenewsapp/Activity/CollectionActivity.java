@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.simplenewsapp.Adapter.NewsAdapter;
 import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.R;
-import com.example.simplenewsapp.Activity.ShowNewsActivity;
+
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
@@ -27,10 +28,12 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
     private List<News> newsList = new ArrayList<>();
 
     private ListView listView;
+    private String type;
 
     private NewsAdapter newsAdapter;
 
     private ImageView exitButton;
+    private TextView textView;
 
     private int newsCount = 8;
 
@@ -42,10 +45,22 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
-
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
         initView();
         initAdapter();
-        initNews();
+        if (type.equals("collect"))
+        {
+            initCollectNews();
+            textView.setText("我的收藏");
+        }
+        else
+        {
+            initHistoryNews();
+            textView.setText("历史记录");
+
+        }
+
         listView.setAdapter(newsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,7 +80,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
 
 
     }
-    News getNewsFromSQL(int id, SQLiteDatabase db) {
+    News getNewsFromCollectSQL(int id, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, " +
                 "news_pic_url from Collection_News where id = " + id, null);
         cursor.moveToFirst();
@@ -90,7 +105,32 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
         //return -1;
     }
 
-    private void initNews()
+    News getNewsFromHistorySQL(int id, SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery("select id, news_title, news_date, news_author, news_pic_url, news_content, " +
+                "news_pic_url from Collection_News where id = " + id, null);
+        cursor.moveToFirst();
+        if (!cursor.isNull(cursor.getColumnIndex("id"))) {
+
+            String title_ = cursor.getString(cursor.getColumnIndex("news_title"));
+            //System.out.println("in get News from SQL. title is "+title_);
+            String date_ = cursor.getString(cursor.getColumnIndex("news_date"));
+            String content_ = cursor.getString(cursor.getColumnIndex("news_content"));
+            String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
+            String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
+            //System.out.println("test cursor author is " + author_);
+            //System.out.println("test cursor url is " + url_);
+
+            //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
+
+            //Bitmap bitmap = bitmapHelper.getBitmapFromUrl(url_);
+            News news = new News(title_, content_, date_, author_, url_);
+            return news;
+        }
+        return new News("", "", "", "", "");
+        //return -1;
+    }
+
+    private void initCollectNews()
     {
         newsList.clear();
 
@@ -101,7 +141,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
             if (!cursor.isNull(cursor.getColumnIndex("id"))) {
                 String news_title = cursor.getString(cursor.getColumnIndex("news_title"));
                 int news_id = getIDFromSQL(news_title, db);
-                News news = getNewsFromSQL(news_id, db);
+                News news = getNewsFromCollectSQL(news_id, db);
 
                 newsList.add(news);
                 //return news;
@@ -117,12 +157,40 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
         db.close();
     }
 
+    private void initHistoryNews()
+    {
+        newsList.clear();
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select id, news_title from News_History", null);
+        while (cursor.moveToNext()) {
+            if (!cursor.isNull(cursor.getColumnIndex("id"))) {
+                String news_title = cursor.getString(cursor.getColumnIndex("news_title"));
+                int news_id = getIDFromSQL(news_title, db);
+                News news = getNewsFromHistorySQL(news_id, db);
+
+                newsList.add(news);
+                //return news;
+            }
+        }
+        cursor.close();
+        db.close();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                newsAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+    
     private void initView()
     {
         listView = findViewById(R.id.listview_collection);
         user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");
         dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
 
+        textView = findViewById(R.id.head_title);
         exitButton = findViewById(R.id.exit_collection);
 
         exitButton.setOnClickListener(new View.OnClickListener() {

@@ -21,6 +21,7 @@ import com.example.simplenewsapp.Utils.BitmapHelper;
 import com.example.simplenewsapp.Utils.LoadListView;
 import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.R;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -35,6 +36,8 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
     private CallBack mCallBack;
     boolean isConnected = true;
     private Bitmap bitmap;
+    public View view;
+    public ViewHolder viewHolder;
 
     public NewsAdapter(Context context, int textViewResourceId, List<News> objects, CallBack callBack) {
         super(context, textViewResourceId, objects);
@@ -48,7 +51,10 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
     }
 
 
-
+    public void setNightMode()
+    {
+        viewHolder.newsItem.setBackgroundColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
+    }
     private class LoadPic extends AsyncTask<Object, Void, Bitmap>
     {
         String url;
@@ -133,8 +139,6 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         News news = getItem(position);
-        View view;
-        ViewHolder viewHolder;
 
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
@@ -145,7 +149,10 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             viewHolder.newsDelete = view.findViewById(R.id.delete_item);
             viewHolder.newsAuthor = view.findViewById(R.id.news_item_author);
             viewHolder.newsDate = view.findViewById(R.id.news_item_date);
+            viewHolder.newsItem = view.findViewById(R.id.news_item);
             view.setTag(viewHolder);
+
+            viewHolder.newsItem.setBackgroundColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
 
         } else {
             view = convertView;
@@ -178,12 +185,13 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
     {
         isConnected = false;
     }
-    static class ViewHolder {
+    static public class ViewHolder {
         ImageView newsImg;
         TextView newsTitle;
         TextView newsAuthor;
         TextView newsDate;
         ImageView newsDelete;
+        public LinearLayout newsItem;
     }
 
     @Override

@@ -26,6 +26,7 @@ import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,10 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         this.type = type;
     }
 
+    public void setNightMode()
+    {
+        adapter.setNightMode();
+    }
     int getIDFromSQL(String title, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);
         while (cursor.moveToNext()) {

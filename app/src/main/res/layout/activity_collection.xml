@@ -24,6 +24,7 @@
             android:layout_marginLeft="115dp"
             android:text="我的收藏"
             android:textColor="#000000"
+            android:id="@+id/head_title"
             android:textSize="25sp" />
     </LinearLayout>
 

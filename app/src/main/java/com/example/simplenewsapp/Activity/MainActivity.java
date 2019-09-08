@@ -6,13 +6,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.cheng.channel.Channel;
-import com.example.simplenewsapp.Fragment.DiscoverFragment;
+
 import com.example.simplenewsapp.Fragment.MainFragment;
-import com.example.simplenewsapp.Fragment.MineFragment;
+
 import com.example.simplenewsapp.Fragment.RecommendFragment;
 import com.example.simplenewsapp.Fragment.SearchFragment;
-import com.example.simplenewsapp.Fragment.VideoFragment;
+
 import com.example.simplenewsapp.R;
+import com.example.simplenewsapp.Utils.ThemeManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -134,24 +135,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_nightmode) {
-            /*int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            getDelegate().setLocalNightMode(currentNightMode == Configuration.UI_MODE_NIGHT_NO ?
-                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-            startActivity(new Intent(this,MainActivity.class));*/
+            ThemeManager.setThemeMode(ThemeManager.getThemeMode() == ThemeManager.ThemeMode.DAY
+                    ? ThemeManager.ThemeMode.NIGHT : ThemeManager.ThemeMode.DAY);
+            mainFragment.setNightMode();
         }
         else if (id == R.id.nav_collect) {
-            startActivity(new Intent(this,CollectionActivity.class));
+            Intent intent = new Intent(this,CollectionActivity.class);
+            intent.putExtra("type","collect");
+            startActivity(intent);
 
         }
         else if (id == R.id.nav_mask)
         {
             startActivity(new Intent(this,MaskActivity.class));
-            finish();
         }
         else if (id == R.id.nav_offlineread)
         {
-            startActivity(new Intent(this,HistoryActivity.class));
-            finish();
+            Intent intent = new Intent(this,CollectionActivity.class);
+            intent.putExtra("type","history");
+            startActivity(intent);
+
         }
 
 
