@@ -24,7 +24,6 @@ public class LoginActivity extends Activity
     private ImageView login_head;
 
     private SQLiteOpenHelper dbHelper;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
