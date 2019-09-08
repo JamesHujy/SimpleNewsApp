@@ -32,8 +32,18 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
     {
         String[] myChannel = {};
         String[] recommendChannel1 = { "国内","国际","科技", "娱乐", "体育", "教育","财经"};
-        String[] recommendChannel2 = {"汽车","文化", "军事", "综艺", "美食", "NBA", "电影", "健康", "足球", "网球", "电竞","电视剧"};
+        String[] recommendChannel2 = { "汽车","文化", "军事", "综艺", "美食", "NBA", "电影", "健康", "足球", "网球", "电竞","电视剧"};
         String[] recommendChannel3 = { "詹姆斯", "泰勒", "梅西", "C罗", "费德勒", "蔡徐坤", "洛杉矶湖人", "男篮世界杯"};
+        String recommendAlready = (String) ShareInfoUtil.getParam(getBaseContext(),ShareInfoUtil.CHOSEN_CHANNEL,"");
+        System.out.println("channel"+recommendAlready);
+        String[] chosenedList;
+
+        if (!recommendAlready.equals(""))
+        {
+            chosenedList = recommendAlready.split(" ");
+        }
+        else
+            chosenedList = null;
 
 
         List<Channel> myChannelList = new ArrayList<>();
@@ -53,22 +63,60 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
             } else {
                 channel = new Channel(aMyChannel, (Object) i);
             }
-            myChannelList.add(channel);
         }
 
-        for (String aMyChannel : recommendChannel1) {
-            Channel channel = new Channel(aMyChannel);
-            recommendChannelList1.add(channel);
-        }
 
-        for (String aMyChannel : recommendChannel2) {
-            Channel channel = new Channel(aMyChannel);
-            recommendChannelList2.add(channel);
-        }
+        if (chosenedList == null)
+        {
+            for (String aMyChannel : recommendChannel1) {
+                Channel channel = new Channel(aMyChannel);
+                recommendChannelList1.add(channel);
+            }
 
-        for (String aMyChannel : recommendChannel3) {
-            Channel channel = new Channel(aMyChannel);
-            recommendChannelList3.add(channel);
+            for (String aMyChannel : recommendChannel2) {
+                Channel channel = new Channel(aMyChannel);
+                recommendChannelList2.add(channel);
+            }
+
+            for (String aMyChannel : recommendChannel3) {
+                Channel channel = new Channel(aMyChannel);
+                recommendChannelList3.add(channel);
+            }
+        }
+        else
+        {
+            for (String aMyChannel : chosenedList) {
+                Channel channel = new Channel(aMyChannel);
+                recommendChannelList1.add(channel);
+            }
+
+            for (String aMyChannel : recommendChannel1) {
+                if(!recommendAlready.contains(aMyChannel))
+                {
+                    Channel channel = new Channel(aMyChannel);
+                    recommendChannelList2.add(channel);
+                }
+            }
+
+            for (String aMyChannel : recommendChannel2) {
+
+                if(!recommendAlready.contains(aMyChannel))
+                {
+                    Channel channel = new Channel(aMyChannel);
+                    recommendChannelList2.add(channel);
+                }
+
+            }
+
+            for (String aMyChannel : recommendChannel3) {
+
+                if(!recommendAlready.contains(aMyChannel))
+                {
+                    Channel channel = new Channel(aMyChannel);
+                    recommendChannelList3.add(channel);
+                }
+
+            }
         }
 
         channelView.setChannelFixedCount(2);
