@@ -123,7 +123,6 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             {
                 System.out.println(title+"NewsImgShow");
                 imageView.setImageBitmap(result);
-
             }
             else{
                 System.out.println(title+"NewsImgGone");
@@ -146,12 +145,14 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
             viewHolder.newsAuthor = view.findViewById(R.id.news_item_author);
             viewHolder.newsDate = view.findViewById(R.id.news_item_date);
             viewHolder.newsItem = view.findViewById(R.id.news_item);
+            viewHolder.newsContent = view.findViewById(R.id.news_item_content);
             view.setTag(viewHolder);
 
             viewHolder.newsItem.setBackgroundColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.backgroundColor)));
             viewHolder.newsTitle.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.textColor)));
             viewHolder.newsAuthor.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));
             viewHolder.newsDate.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));
+            viewHolder.newsContent.setTextColor(view.getResources().getColor(ThemeManager.getCurrentThemeRes(getContext(), R.color.colorGrey)));;
         }
         else {
             view = convertView;
@@ -173,12 +174,24 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         viewHolder.newsAuthor.setText(news.get_author());
         viewHolder.newsDate.setText(news.get_date());
 
+        viewHolder.newsContent.setText(getContent(news.get_content()));
         viewHolder.newsDelete.setTag(position);
         viewHolder.newsDelete.setOnClickListener(this);
 
         return view;
     }
 
+    private String getContent(String content)
+    {
+        if(content.length() < 50)
+        {
+            return content;
+        }
+        content = content.substring(0,50);
+        content = content.replaceAll("\n"," ");
+        content = content + "...";
+        return content;
+    }
 
     public void setOffline()
     {
@@ -189,6 +202,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         TextView newsTitle;
         TextView newsAuthor;
         TextView newsDate;
+        TextView newsContent;
         ImageView newsDelete;
         public LinearLayout newsItem;
     }
