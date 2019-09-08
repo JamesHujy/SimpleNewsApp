@@ -114,6 +114,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
                 newsAdapter.notifyDataSetChanged();
             }
         });
+        db.close();
     }
 
     private void initView()
@@ -165,5 +166,6 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
         Toast.makeText(this, "该新闻已删除！", Toast.LENGTH_SHORT).show();
         newsList.remove(Integer.parseInt(view.getTag().toString()));
         newsAdapter.notifyDataSetChanged();
+        db.close();
     }
 }

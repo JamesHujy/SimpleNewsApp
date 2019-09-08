@@ -91,11 +91,13 @@ public class RegisterActivity extends Activity {
             values.put("password", password);
             db.insert("User", null, values);
             Toast.makeText(getBaseContext(), "用户名注册成功！", Toast.LENGTH_LONG).show();
+            db.close();
             return true;
 
         }
         else {
             Toast.makeText(getBaseContext(), "用户名已存在！", Toast.LENGTH_LONG).show();
+            db.close();
             return false;
         }
     }

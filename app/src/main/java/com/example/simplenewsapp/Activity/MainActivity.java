@@ -148,6 +148,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,MaskActivity.class));
             finish();
         }
+        else if (id == R.id.nav_offlineread)
+        {
+            startActivity(new Intent(this,HistoryActivity.class));
+            finish();
+        }
 
 
 /*      else if (id == R.id.nav_slideshow) {
