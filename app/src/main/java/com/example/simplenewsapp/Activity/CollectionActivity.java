@@ -183,7 +183,7 @@ public class CollectionActivity extends Activity implements NewsAdapter.CallBack
             }
         });
     }
-    
+
     private void initView()
     {
         listView = findViewById(R.id.listview_collection);
