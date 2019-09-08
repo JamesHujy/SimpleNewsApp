@@ -123,7 +123,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         }
 
 
-        dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
+        //dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
 
         news_title.setText(news_title_str);
         news_body.setText(news_body_str);
@@ -149,6 +149,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
 
         System.out.println("in showNewsActivity.recommendNews "+newsList.size());
         newsAdapter.notifyDataSetChanged();
+        db.close();
         //newsList.add()
     }///
 
@@ -375,6 +376,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
         db.insert("News_Like", null, values_);
+        db.close();
         //db.update("news_like", values_, "id=? ", new String[] {})
     }
 
@@ -392,6 +394,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         values_.put("news_title", news_title_str);
         db.delete("News_Like", "news_title = ? ", new String[]{news_title_str});
         //db.insert("News_Like", null, values_);
+        db.close();
     }
 
     @Override

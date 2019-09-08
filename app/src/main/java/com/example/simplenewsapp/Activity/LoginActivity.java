@@ -24,7 +24,6 @@ public class LoginActivity extends Activity
     private ImageView login_head;
 
     private SQLiteOpenHelper dbHelper;
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -78,6 +77,7 @@ public class LoginActivity extends Activity
                 finish();
                 ShareInfoUtil.setParam(LoginActivity.this, ShareInfoUtil.IS_LOGIN, true);
                 ShareInfoUtil.setParam(LoginActivity.this, ShareInfoUtil.LOGIN_DATA, username_str);
+
             }
             else {
                 Toast.makeText(getBaseContext(), "密码不符！", Toast.LENGTH_LONG).show();

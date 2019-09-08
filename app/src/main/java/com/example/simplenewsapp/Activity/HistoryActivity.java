@@ -43,8 +43,9 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
 
         initView();
         initAdapter();
+
         initNews();
-        listView.setAdapter(newsAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
@@ -70,13 +71,13 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
         if (!cursor.isNull(cursor.getColumnIndex("id"))) {
 
             String title_ = cursor.getString(cursor.getColumnIndex("news_title"));
-            System.out.println("in get News from SQL. title is "+title_);
+            //System.out.println("in get News from SQL. title is "+title_);
             String date_ = cursor.getString(cursor.getColumnIndex("news_date"));
             String content_ = cursor.getString(cursor.getColumnIndex("news_content"));
             String author_ = cursor.getString(cursor.getColumnIndex("news_author"));
             String url_ = cursor.getString(cursor.getColumnIndex("news_pic_url"));
-            System.out.println("test cursor author is " + author_);
-            System.out.println("test cursor url is " + url_);
+            //System.out.println("test cursor author is " + author_);
+            //System.out.println("test cursor url is " + url_);
 
             //BitmapHelper bitmapHelper = new BitmapHelper(this.getContext());
 
@@ -94,7 +95,7 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
 
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select id, news_title from News_", null);
+        Cursor cursor = db.rawQuery("select id, news_title from News_History", null);
         while (cursor.moveToNext()) {
             if (!cursor.isNull(cursor.getColumnIndex("id"))) {
                 String news_title = cursor.getString(cursor.getColumnIndex("news_title"));
@@ -106,6 +107,7 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
             }
         }
         cursor.close();
+        db.close();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -133,6 +135,7 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
     private void initAdapter()
     {
         newsAdapter = new NewsAdapter(this, R.layout.news_item,newsList,this);
+        listView.setAdapter(newsAdapter);
     }
     int getIDFromSQL(String title, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);
@@ -163,5 +166,6 @@ public class HistoryActivity extends Activity implements NewsAdapter.CallBack{
         Toast.makeText(this, "该新闻已删除！", Toast.LENGTH_SHORT).show();
         newsList.remove(Integer.parseInt(view.getTag().toString()));
         newsAdapter.notifyDataSetChanged();
+        db.close();
     }
 }
