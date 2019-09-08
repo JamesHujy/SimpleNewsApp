@@ -140,7 +140,9 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         ContentValues values_ = new ContentValues();
         //values_.put("news_id", id);
         values_.put("news_title", news_title_str);
-        db.insert("News_History", null, values_);
+        Cursor cursor1 = db.rawQuery("select * from News_History where news_title = ?", new String[]{news_title_str});
+        if (cursor1.getCount() == 0)
+            db.insert("News_History", null, values_);
 
         String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
         String[] keyWordList = keyWords.split(" ");
