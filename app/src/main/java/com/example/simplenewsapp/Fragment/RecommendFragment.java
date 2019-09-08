@@ -24,7 +24,9 @@ import com.example.simplenewsapp.Utils.News;
 import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -215,7 +217,8 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         mListView.setAdapter(adapter);
 
         startDate = "2019-09-04";
-        endDate = "2019-09-05";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        endDate = sdf.format(new Date());
     }
 
     void initNews(final int flag)
