@@ -32,8 +32,6 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activity.HistoryActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.ChannelChooseActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.MaskActivity"

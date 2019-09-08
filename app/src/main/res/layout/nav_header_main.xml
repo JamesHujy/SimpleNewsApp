@@ -33,7 +33,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:gravity="bottom"
-                    android:text=""
+                    android:text="JamesHujy"
                     android:textStyle="bold"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp" />
