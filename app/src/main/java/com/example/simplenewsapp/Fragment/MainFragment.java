@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.simplenewsapp.Activity.ChannelChooseActivity;
+import com.example.simplenewsapp.Activity.MainActivity;
 import com.example.simplenewsapp.Adapter.FragmentAdapter;
 import com.example.simplenewsapp.R;
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +33,8 @@ public class MainFragment extends Fragment implements View.OnClickListener
     private List<Fragment> fragmentList;
 
     private FragmentAdapter fragmentAdapter;
+
+    public MainFragment(){}
 
     public MainFragment(List<String> channelList)
     {

@@ -62,6 +62,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
     private NewsAdapter mNewsAdapter;
 
     private NewsDataBaseHelper dbHelper;
+
+    public SearchFragment(){}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
 

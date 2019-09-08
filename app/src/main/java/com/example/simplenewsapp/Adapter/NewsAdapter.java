@@ -153,7 +153,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         }
 
         System.out.println("In adapter.....");
-        System.out.println(news.get_title());
+        System.out.println(news.get_title()+news.get_click());
 
         LoadPic loadPic = new LoadPic(news.get_picurl(),viewHolder.newsImg,news.get_title());
         loadPic.execute(news.get_picurl());
@@ -162,6 +162,8 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
 
         if (news.get_click())
             viewHolder.newsTitle.setTextColor(Color.parseColor("#696969"));
+        else
+            viewHolder.newsTitle.setTextColor(Color.parseColor("#000000"));
         viewHolder.newsAuthor.setText(news.get_author());
         viewHolder.newsDate.setText(news.get_date());
 

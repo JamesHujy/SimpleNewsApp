@@ -57,6 +57,8 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
 
     private String user_name;
 
+    public RecommendFragment() {}
+
     void init()
     {
         dbHelper = new NewsDataBaseHelper(getContext(), "User_"+user_name+".db", null, 1);

@@ -373,7 +373,6 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             url = basicString + "size=" + size +"&endDate="+endDate+"&categories=" + type;
          else
             url = basicString + "size=" + size +"&endDate="+endDate+"&words=" + type;
-
     }
     @Override
     public void click(View view)
@@ -444,6 +443,10 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
             }
         }*/
         newsList.addAll(newsListCache);
+        for(News news:newsList)
+        {
+            System.out.println(news.get_title()+news.get_click());
+        }
         adapter.notifyDataSetChanged();
     }
 

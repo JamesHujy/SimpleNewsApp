@@ -134,10 +134,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_nightmode) {
-            /*int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            getDelegate().setLocalNightMode(currentNightMode == Configuration.UI_MODE_NIGHT_NO ?
-                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-            startActivity(new Intent(this,MainActivity.class));*/
+            recreate();
         }
         else if (id == R.id.nav_collect) {
             startActivity(new Intent(this,CollectionActivity.class));
@@ -148,6 +145,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,MaskActivity.class));
             finish();
         }
+        else if (id == R.id.nav_logout)
+        {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+
 
 
 /*      else if (id == R.id.nav_slideshow) {
