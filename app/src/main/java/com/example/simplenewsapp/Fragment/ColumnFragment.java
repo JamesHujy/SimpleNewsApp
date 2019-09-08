@@ -166,10 +166,13 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
     boolean judgeShieldFromID(int id, SQLiteDatabase db, String wordShield) {
         Cursor cursor = db.rawQuery("select id, key_words from Collection_News where id = "+id, null);
         cursor.moveToFirst();
-        String keyWords = cursor.getColumnName(cursor.getColumnIndex("key_words"));
-        String[] keyWordsList = keyWords.split(" ");
-        for (int i = 0; i < keyWordsList.length; i++) {
-            if (wordShield.contains(keyWordsList[i]))
+        String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
+        System.out.println("in columnFragment.judgeShieldFromID "+keyWords);
+        String[] shieldWordsList = wordShield.split(" ");
+        System.out.println("in columnFragment.judgeShieldFromID "+wordShield);
+        for (int i = 0; i < shieldWordsList.length; i++) {
+            System.out.println("in columnFragment.judgeShieldFromID "+shieldWordsList[i]);
+            if (keyWords.contains(shieldWordsList[i]))
                 return true;
         }
         return false;
@@ -335,6 +338,7 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         }
         System.out.println("before add news " + typeNewsTotal);
 
+        final String mask = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.MASK_WORDS, "");
         Thread loadthread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -342,7 +346,8 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
                     for (int j = 0; j < newsCount; j++) {
                         //System.out.println("typeNewsWatched is "+typeNewsWatched);
                         //System.out.println("typeNewsTotal is "+typeNewsTotal);
-                        newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
+                        if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
+                            newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
                     }
                 }
                 ifEmpty = false;
@@ -387,6 +392,10 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         adapter.notifyDataSetChanged();
     }
 
+    void mask()
+    {
+        String mask = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.MASK_WORDS, "");
+    }
     private void LoadNews()
     {
         while (typeNewsTotal - typeNewsWatched <= 2 * newsCount) {
@@ -416,9 +425,11 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         //newsListCache.clear();
         newsList.clear();
         typeNewsWatched += newsCount;
+        final String mask = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.MASK_WORDS, "");
         if (typeNewsTotal - typeNewsWatched >= newsCount) {
             for (int j = 0; j < newsCount; j++) {
-                newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
+                if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
+                    newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
             }
         }
         newsList.addAll(newsListCache);
@@ -454,13 +465,15 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         newsListCache.clear();
         newsList.clear();
+        final String mask = (String) ShareInfoUtil.getParam(getContext(), ShareInfoUtil.MASK_WORDS, "");
         if (typeNewsTotal - typeNewsWatched >= newsCount) {
             typeNewsWatched += newsCount;
             int tmp = typeNewsTotal - typeNewsWatched;
             tmp = Math.min(tmp, newsCount);
 
             for (int j = 0; j < tmp; j++) {
-                newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
+                if (!judgeShieldFromID(typeNewsArray[typeNewsWatched + j], db, mask))
+                    newsListCache.add(getNewsFromSQL(typeNewsArray[typeNewsWatched + j], db));
             }
 
         }
