@@ -385,6 +385,29 @@ public class ColumnFragment extends Fragment implements NewsAdapter.CallBack, Lo
 
     private void LoadNews()
     {
+        while (typeNewsTotal - typeNewsWatched <= 2 * newsCount) {
+            int startDay = Integer.parseInt(startDate.substring(8, 10));
+            int startMon = Integer.parseInt(startDate.substring(5, 7));
+            if (startDay-- == 1) {
+                startDay = 31;
+                startMon -= 1;
+            }
+            if (startMon == 0)
+                startMon = 12;
+            //System.out.println(starttime);
+            int endDay = Integer.parseInt(endDate.substring(8, 10));
+            int endMon = Integer.parseInt(endDate.substring(5, 7));
+            if (endDay-- == 1) {
+                endDay = 31;
+                endMon -= 1;
+            }
+            if (endMon == 0)
+                endMon = 12;
+            startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
+            endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
+            setUrl(2000);
+            initNews();
+        }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //newsListCache.clear();
         newsList.clear();
