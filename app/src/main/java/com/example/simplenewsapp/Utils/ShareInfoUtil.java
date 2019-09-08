@@ -10,6 +10,8 @@ public class ShareInfoUtil {
     //存储用户登录状态（是否登录）
     public static final String IS_LOGIN = "isLogin";
 
+    public static final String MASK_WORDS = "";
+
 
     public static void setParam(Context context, String key, Object object) {
 

@@ -143,7 +143,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,CollectionActivity.class));
 
         }
-
+        else if (id == R.id.nav_mask)
+        {
+            startActivity(new Intent(this,MaskActivity.class));
+            finish();
+        }
 
 
 /*      else if (id == R.id.nav_slideshow) {

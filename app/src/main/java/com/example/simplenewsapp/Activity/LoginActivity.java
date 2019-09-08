@@ -24,13 +24,14 @@ public class LoginActivity extends Activity
     private ImageView login_head;
 
     private SQLiteOpenHelper dbHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-
+        dbHelper = new UserDataBaseHelper(this, "User_Info.db", null, 1);
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -41,7 +42,6 @@ public class LoginActivity extends Activity
                 judgePassword(username_str, password_str);
             }
         });
-        dbHelper = new UserDataBaseHelper(this, "User_Info.db", null, 1);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
