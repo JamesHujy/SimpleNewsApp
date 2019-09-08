@@ -20,6 +20,7 @@ public class LoginActivity extends Activity
     private ImageView login_head;
 
     private SQLiteOpenHelper dbHelper;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -37,7 +38,7 @@ public class LoginActivity extends Activity
                 judgePassword(username_str, password_str);
             }
         });
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);

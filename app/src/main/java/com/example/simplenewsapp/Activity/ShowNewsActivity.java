@@ -85,6 +85,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         setContentView(R.layout.activity_show_news);
         initView();
         getInfo();
+        loadVideo();
     }
 
     private void getInfo()
@@ -97,15 +98,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         news_time_str = intent.getStringExtra("date");
         news_picurl = intent.getStringExtra("pic_url");
         source_activity = intent.getStringExtra("source_activity");
-        try
-        {
-            videourl = intent.getStringExtra("videourl");
-        }
-        finally {
-            videourl = "";
-        }
+        videourl = intent.getStringExtra("videourl");
+
 
         System.out.println(news_title_str);
+        System.out.println(videourl);
+
         String user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");//注意一下
 
         //dbHelper = new NewsDataBaseHelper(this, "UserDB.db", null, 1);
@@ -306,6 +304,9 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
 
     private void initView()
     {
+
+
+
         news_title = findViewById(R.id.content_title);
         news_author = findViewById(R.id.content_author);
         news_time = findViewById(R.id.content_time);
@@ -319,11 +320,23 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         linearLayout = findViewById(R.id.share_pic_layout);
 
         videoView = findViewById(R.id.content_video);
-        System.out.println("videourl::::::::"+videourl);
 
+        listView = findViewById(R.id.listview_recommend);
+        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
+
+        back_to_list.setOnClickListener(this);
+        collect_news.setOnClickListener(this);
+        wechat_share_word.setOnClickListener(this);
+        wechat_share_pic.setOnClickListener(this);
+        transmit_news.setOnClickListener(this);
+    }
+
+    private void loadVideo()
+    {
         if (videourl != null) {
             if (!videourl.isEmpty()) {
                 Uri uri = Uri.parse(videourl);
+                System.out.println("Loading video..."+videourl);
                 videoView.setMediaController(new MediaController(this));
                 videoView.setVideoURI(uri);
                 int widthvideo = getWindowManager().getDefaultDisplay().getWidth();
@@ -336,18 +349,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             }
         }
 
-        listView = findViewById(R.id.listview_recommend);
-        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
-
-
-        back_to_list.setOnClickListener(this);
-        collect_news.setOnClickListener(this);
-        wechat_share_word.setOnClickListener(this);
-        wechat_share_pic.setOnClickListener(this);
-        transmit_news.setOnClickListener(this);
 
     }
-
     private int getIDFromSQL(String title, SQLiteDatabase db) {
         Cursor cursor = db.rawQuery("select id, news_title from Collection_News", null);
         while (cursor.moveToNext()) {

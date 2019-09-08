@@ -22,7 +22,7 @@
             android:title="夜间模式" />
 
         <item
-            android:id="@+id/nav_review"
+            android:id="@+id/nav_mask"
             android:icon="@drawable/ic_menu_send"
             android:title="屏蔽关键词"/>
     </group>

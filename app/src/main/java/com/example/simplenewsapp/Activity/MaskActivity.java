@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class MaskActivity extends Activity {
     private EditText met_search;
     private RecyclerView mRecyclerView;
     private TextView mtv_deleteAll;
+    private ImageView exitMask;
 
 
     private SearchAdapter mSearchAdapter;
@@ -60,6 +62,15 @@ public class MaskActivity extends Activity {
         mbtn_serarch = findViewById(R.id.btn_serarch);
         met_search = findViewById(R.id.et_search);
 
+        exitMask = findViewById(R.id.exit_mask);
+        exitMask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getBaseContext(), MainActivity.class));
+                finish();
+            }
+        });
+
         mtv_deleteAll = findViewById(R.id.tv_deleteAll);
         mtv_deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +79,7 @@ public class MaskActivity extends Activity {
                 mSearchAdapter.updata(mDatebase.queryData(""));
             }
         });
+
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mSearchAdapter =new SearchAdapter(mDatebase.queryData(""),this);
@@ -85,19 +97,26 @@ public class MaskActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String searchContent = met_search.getText().toString().trim();
-                System.out.println(searchContent);
                 if (searchContent.length() != 0){
                     boolean hasData = mDatebase.hasData(searchContent);
                     if (!hasData)
                     {
                         mDatebase.insertData(searchContent);
-                        System.out.println("in search"+searchContent);
 
                     }
                     mSearchAdapter.updata(mDatebase.queryData(""));
+                    sendData(mDatebase.queryData(""));
                 }
 
             }
         });
+    }
+
+    void sendData(List<String> data)
+    {
+        String sending = "";
+        for(String str:data)
+            sending = sending + str + " ";
+        ShareInfoUtil.setParam(this,ShareInfoUtil.MASK_WORDS,sending);
     }
 }

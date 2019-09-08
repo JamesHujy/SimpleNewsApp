@@ -40,6 +40,8 @@
         <activity android:name=".Activity.SecurityActivity" />
         <activity android:name=".Activity.ChannelChooseActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activity.MaskActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activity.ShowNewsActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
