@@ -118,6 +118,7 @@ public class NewsAdapter extends ArrayAdapter<News> implements View.OnClickListe
         @Override
         public void onPostExecute(Bitmap result)
         {
+            imageView.setVisibility(View.VISIBLE);
             if(result != null && result.getHeight() < result.getWidth())
             {
                 System.out.println(title+"NewsImgShow");

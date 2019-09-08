@@ -83,8 +83,8 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
 
 
     private ListView listView;
-    private List<News> newsList = new ArrayList<>();
-    private NewsAdapter newsAdapter;
+    //private List<News> newsList = new ArrayList<>();
+    //private NewsAdapter newsAdapter;
 
     private void initView()
     {
@@ -115,7 +115,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         news_body.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
 
         //listView = findViewById(R.id.listview_recommend);
-        newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
+        //newsAdapter = new NewsAdapter(this, R.layout.news_item, newsList, this);
 
         back_to_list.setOnClickListener(this);
         collect_news.setOnClickListener(this);
@@ -190,15 +190,12 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         String keyWords = cursor.getString(cursor.getColumnIndex("key_words"));
         String[] keyWordList = keyWords.split(" ");
 
-        recommendNews(keyWordList[0], db, newsList);
-
-        System.out.println("in showNewsActivity.recommendNews "+newsList.size());
-        newsAdapter.notifyDataSetChanged();
+        //recommendNews(keyWordList[0], db, newsList);
         db.close();
         //newsList.add()
     }///
 
-    private void recommendNews(String type, SQLiteDatabase db, List<News> newsList) {
+    /*private void recommendNews(String type, SQLiteDatabase db, List<News> newsList) {
         System.out.println("in showNewsActivity.recommendNews "+type);
         newsList.clear();
         String url = "https://api2.newsminer.net/svc/news/queryNewsList?size=3&words=" + type;
@@ -262,7 +259,7 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             newsList.add(news);
         }
 
-    }
+    }*/
     boolean checkIfNew(String title, SQLiteDatabase db) {
         Cursor cursor = db.query("Collection_News", new String[]{"news_title"}, "news_title = ?", new String[]{title},
                 null, null, null);
@@ -423,11 +420,19 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
             case R.id.back_to_list:
             {
                 finish();
-                if (source_activity.equals("collection"))
+                if (source_activity.equals("collect"))
                 {
-                    startActivity(new Intent(this, CollectionActivity.class));
+                    Intent intent = new Intent(this, CollectionActivity.class);
+                    intent.putExtra("type",source_activity);
+                    startActivity(intent);
                 }
-                finish();
+                else if(source_activity.equals("history"))
+                {
+                    Intent intent = new Intent(this, CollectionActivity.class);
+                    intent.putExtra("type",source_activity);
+                    startActivity(intent);
+                }
+                else finish();
             }
             break;
             case R.id.collect_news:

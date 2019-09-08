@@ -31,7 +31,7 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
     void init()
     {
         String[] myChannel = {};
-        String[] recommendChannel1 = { "要闻","国内","国际","科技", "娱乐", "体育", "教育","财经"};
+        String[] recommendChannel1 = { "国内","国际","科技", "娱乐", "体育", "教育","财经"};
         String[] recommendChannel2 = {"汽车","文化", "军事", "综艺", "美食", "NBA", "电影", "健康", "足球", "网球", "电竞","电视剧"};
         String[] recommendChannel3 = { "詹姆斯", "泰勒", "梅西", "C罗", "费德勒", "蔡徐坤", "洛杉矶湖人", "男篮世界杯"};
 
@@ -71,7 +71,7 @@ public class ChannelChooseActivity extends Activity implements ChannelView.OnCha
             recommendChannelList3.add(channel);
         }
 
-        channelView.setChannelFixedCount(3);
+        channelView.setChannelFixedCount(2);
         channelView.addPlate("推荐频道", recommendChannelList1);
         channelView.addPlate("其他类别", recommendChannelList2);
         channelView.addPlate("猜你感兴趣", recommendChannelList3);

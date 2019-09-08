@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.example.simplenewsapp.Utils.NewsDataBaseHelper;
 import com.example.simplenewsapp.Utils.SearchAdapter;
 import com.example.simplenewsapp.Utils.SearchDataBase;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +37,19 @@ public class MaskActivity extends Activity {
     private Button mbtn_serarch;
     private EditText met_search;
     private RecyclerView mRecyclerView;
-    private TextView mtv_deleteAll;
+    private TextView mtv_deleteAll, masked_word;
     private ImageView exitMask;
 
 
     private SearchAdapter mSearchAdapter;
     private SearchDataBase mDatebase;
 
-    private RelativeLayout linearLayout;
+    private RelativeLayout relativeLayout;
 
-    private NewsDataBaseHelper dbHelper;
+    private LinearLayout mask_layout;
+    private LinearLayout mask_head;
+
+    //private NewsDataBaseHelper dbHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,11 +61,27 @@ public class MaskActivity extends Activity {
 
     private void initSearch()
     {
+        mask_layout = findViewById(R.id.mask_layout);
+        mask_layout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+
+        mask_head = findViewById(R.id.mask_head);
+        mask_head.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+
+        relativeLayout = findViewById(R.id.mask_relative);
+        relativeLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
+
+        masked_word = findViewById(R.id.masked_word);
+        masked_word.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.colorGrey)));
+
+
         String user_name = (String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "");
-        dbHelper = new NewsDataBaseHelper(this, "User_"+user_name+".db", null, 1);
+
         mDatebase =new SearchDataBase(this, user_name+"_mask_record.db");
         mbtn_serarch = findViewById(R.id.btn_serarch);
+
         met_search = findViewById(R.id.et_search);
+        met_search.setHintTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.colorGrey)));
+        met_search.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
 
         exitMask = findViewById(R.id.exit_mask);
         exitMask.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +93,7 @@ public class MaskActivity extends Activity {
         });
 
         mtv_deleteAll = findViewById(R.id.tv_deleteAll);
+        mtv_deleteAll.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.textColor)));
         mtv_deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

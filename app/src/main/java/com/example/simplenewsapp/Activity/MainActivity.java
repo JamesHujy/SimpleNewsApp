@@ -239,8 +239,7 @@ public class MainActivity extends AppCompatActivity
         ll_video = findViewById(R.id.layout_recommend);
         ll_discover = findViewById(R.id.layout_discover);
 
-        user_name = findViewById(R.id.mine_user_name);
-        user_name.setText(((String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "")));
+
         //ll_mine = findViewById(R.id.layout_mine);
 
         text_main = findViewById(R.id.text_main);
