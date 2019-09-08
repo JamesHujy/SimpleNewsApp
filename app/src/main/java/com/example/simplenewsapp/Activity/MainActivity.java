@@ -13,7 +13,6 @@ import com.example.simplenewsapp.Fragment.RecommendFragment;
 import com.example.simplenewsapp.Fragment.SearchFragment;
 import com.example.simplenewsapp.Fragment.VideoFragment;
 import com.example.simplenewsapp.R;
-import com.example.simplenewsapp.Utils.ThemeManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity
     private List<Fragment> fragmentList = new ArrayList<>();
     private ImageView img_main, img_video, img_dicover;
     private TextView text_main, text_video, text_discover;
-    private DrawerLayout drawer;
 
 
     private int theme = R.style.AppTheme;
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_NO);
 
-        drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -136,10 +134,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_nightmode) {
-            ThemeManager.setThemeMode(ThemeManager.getThemeMode() == ThemeManager.ThemeMode.DAY
-                    ? ThemeManager.ThemeMode.NIGHT : ThemeManager.ThemeMode.DAY);
-            drawer.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(MainActivity.this, R.color.backgroundColor)));
-            mainFragment.setNightMode();
+            /*int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            getDelegate().setLocalNightMode(currentNightMode == Configuration.UI_MODE_NIGHT_NO ?
+                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            startActivity(new Intent(this,MainActivity.class));*/
         }
         else if (id == R.id.nav_collect) {
             startActivity(new Intent(this,CollectionActivity.class));
@@ -150,12 +148,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this,MaskActivity.class));
             finish();
         }
-        else if (id == R.id.nav_logout)
+        else if (id == R.id.nav_offlineread)
         {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this,HistoryActivity.class));
             finish();
         }
-
 
 
 /*      else if (id == R.id.nav_slideshow) {

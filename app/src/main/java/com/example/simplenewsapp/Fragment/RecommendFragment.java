@@ -115,7 +115,7 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
         else
             type = "体育";
 
-        System.out.println(type);
+        System.out.println("in RecommendFragment.init "+type);
 
     }
 
@@ -268,12 +268,24 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
                 typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
             }
             else {
-                System.out.println("news not new!");
-                if (ifEmpty)
+                //System.out.println("news not new!");
+                /*if (ifEmpty)
                 {
                     System.out.println("title is "+title);
                     /////
                     typeNewsArray[typeNewsTotal++] = getIDFromSQL(title, db);
+                }*/
+                int id = getIDFromSQL(title, db);
+                boolean flg = false;
+                for (int k = 0; k < typeNewsTotal; k++) {
+                    if (typeNewsArray[k] == id)
+                        flg = true;
+                }
+                if (!flg)
+                {
+                    //System.out.println("title is "+title);
+                    /////
+                    typeNewsArray[typeNewsTotal++] = id;
                 }
 
             }
