@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     private List<Fragment> fragmentList = new ArrayList<>();
     private ImageView img_main, img_video, img_dicover;
     private TextView text_main, text_video, text_discover;
+    private TextView user_name;
 
 
     private int theme = R.style.AppTheme;
@@ -76,9 +77,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });*/
-
-        AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_NO);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -160,6 +158,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         }
+        else if (id == R.id.nav_logout)
+        {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
 /*      else if (id == R.id.nav_slideshow) {
@@ -234,6 +238,9 @@ public class MainActivity extends AppCompatActivity
         ll_main = findViewById(R.id.layout_main);
         ll_video = findViewById(R.id.layout_recommend);
         ll_discover = findViewById(R.id.layout_discover);
+
+        user_name = findViewById(R.id.mine_user_name);
+        user_name.setText(((String) ShareInfoUtil.getParam(this, ShareInfoUtil.LOGIN_DATA, "")));
         //ll_mine = findViewById(R.id.layout_mine);
 
         text_main = findViewById(R.id.text_main);

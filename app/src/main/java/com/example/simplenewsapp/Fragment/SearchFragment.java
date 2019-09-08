@@ -48,6 +48,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
     private Button mbtn_serarch;
     private EditText met_search;
     private RecyclerView mRecyclerView;
+    private TextView historyRecord;
     private TextView mtv_deleteAll;
     private List<News> newsArrayList;
     private View view;
@@ -72,6 +73,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         //mLoadListView = view.findViewById(R.id.search_result);
 
 
+        historyRecord = view.findViewById(R.id.history_record);
+        historyRecord.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.colorGrey)));
         searchLayout = view.findViewById(R.id.search_layout);
         searchLayout.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.backgroundColor)));
         relativeLayout = view.findViewById(R.id.relative_layout);
@@ -85,6 +88,7 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         mNewsAdapter = new NewsAdapter(getContext(), R.layout.news_item, newsArrayList,this);
         listView.setAdapter(mNewsAdapter);
         listView.setVisibility(View.GONE);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,6 +126,9 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         mDatebase =new SearchDataBase(this.getContext(), user_name+"_search_record.db");
         mbtn_serarch = view.findViewById(R.id.btn_serarch);
         met_search = view.findViewById(R.id.et_search);
+
+        met_search.setHintTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.colorGrey)));
+        met_search.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.textColor)));
         met_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -141,6 +148,8 @@ public class SearchFragment extends Fragment implements NewsAdapter.CallBack
         });
 
         mtv_deleteAll = view.findViewById(R.id.tv_deleteAll);
+        mtv_deleteAll.setTextColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this.getContext(), R.color.textColor)));
+
         mtv_deleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.simplenewsapp.R;
 import com.example.simplenewsapp.Utils.ShareInfoUtil;
+import com.example.simplenewsapp.Utils.ThemeManager;
 import com.example.simplenewsapp.Utils.UserDataBaseHelper;
 
 public class LoginActivity extends Activity
@@ -73,7 +74,7 @@ public class LoginActivity extends Activity
                 Toast.makeText(getBaseContext(), "登录成功！", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, ChannelChooseActivity.class);
                 startActivity(intent);
-
+                ThemeManager.setThemeMode(ThemeManager.ThemeMode.DAY);
                 finish();
                 ShareInfoUtil.setParam(LoginActivity.this, ShareInfoUtil.IS_LOGIN, true);
                 ShareInfoUtil.setParam(LoginActivity.this, ShareInfoUtil.LOGIN_DATA, username_str);
