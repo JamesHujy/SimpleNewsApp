@@ -20,7 +20,7 @@
         </activity>
 
         <activity android:name=".Activity.MainActivity"
-            android:label="大白新闻"
+            android:label="胡锦毅_News"
             android:theme="@style/AppTheme.NoActionBar">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

@@ -94,25 +94,10 @@
                     android:id="@+id/share_wechat_word"
                     android:layout_width="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="分享文字"/>
+                    android:text="分享新闻"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/share_pic_layout"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:layout_height="40dp"
-                    android:id="@+id/share_wechat_pic"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="分享照片"/>
-            </LinearLayout>
 
             <!--
             <TextView

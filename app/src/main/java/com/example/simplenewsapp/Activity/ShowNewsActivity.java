@@ -67,11 +67,11 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
     private ImageView transmit_news;
     private ImageView back_to_list;
     private Button wechat_share_word;
-    private Button wechat_share_pic;
+    //private Button wechat_share_pic;
     private String source_activity;
     private Bitmap bitmap;
 
-    private LinearLayout linearLayout;
+    //private LinearLayout linearLayout;
 
     private LinearLayout back_column;
     private ScrollView show_news;
@@ -96,9 +96,9 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         collect_news = findViewById(R.id.collect_news);
         transmit_news = findViewById(R.id.transmit_news);
         back_to_list = findViewById(R.id.back_to_list);
-        wechat_share_pic = findViewById(R.id.share_wechat_pic);
+
         wechat_share_word = findViewById(R.id.share_wechat_word);
-        linearLayout = findViewById(R.id.share_pic_layout);
+
 
         back_column = findViewById(R.id.back_column);
         back_column.setBackgroundColor(getResources().getColor(ThemeManager.getCurrentThemeRes(this, R.color.backgroundColor)));
@@ -120,7 +120,6 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         back_to_list.setOnClickListener(this);
         collect_news.setOnClickListener(this);
         wechat_share_word.setOnClickListener(this);
-        wechat_share_pic.setOnClickListener(this);
         transmit_news.setOnClickListener(this);
     }
     @Override
@@ -332,17 +331,17 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
         @Override
         public void onPostExecute(Bitmap result)
         {
-
+            imageView.setVisibility(View.VISIBLE);
             if(result != null)
             {
                 System.out.println("NewsImgShow");
                 imageView.setImageBitmap(result);
-                linearLayout.setVisibility(View.VISIBLE);
+
             }
             else {
                 System.out.println("NewsImgGone");
                 imageView.setVisibility(View.GONE);
-                linearLayout.setVisibility(View.GONE);
+
             }
         }
     }
@@ -455,20 +454,6 @@ public class ShowNewsActivity extends Activity implements View.OnClickListener, 
                     Toast toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            }
-            break;
-            case R.id.share_wechat_pic:
-            {
-                try{
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.putExtra(Intent.EXTRA_STREAM, Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, null, null)));
-                    i.setType("image/*");
-                    startActivity(Intent.createChooser(i, "lnntql!"));
-                }
-                finally {
-                    Toast.makeText(this,"分享失败",Toast.LENGTH_SHORT).show();
-                }
-
             }
             break;
             case R.id.share_wechat_word:
