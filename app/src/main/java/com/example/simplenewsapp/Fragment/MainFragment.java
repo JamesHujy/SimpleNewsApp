@@ -36,6 +36,11 @@ public class MainFragment extends Fragment implements View.OnClickListener
 
     public MainFragment(){}
 
+
+    public void setNightMode()
+    {
+
+    }
     public MainFragment(List<String> channelList)
     {
         titleList = new ArrayList<>();
