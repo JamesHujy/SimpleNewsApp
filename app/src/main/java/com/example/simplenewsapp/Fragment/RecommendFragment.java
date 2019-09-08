@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 public class RecommendFragment extends Fragment implements NewsAdapter.CallBack, LoadListView.ILoadListener,
@@ -107,15 +108,24 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
             }
         }
         Iterator keys2 = map2.keySet().iterator();
-        if (keys2.hasNext()){
-            Object key = keys2.next();
-            maxK = key.toString();
-            type = maxK;
+        int size = map2.size();
+        Random r = new Random();
+        if (size != 0)
+        {
+            int rand = r.nextInt(size);
+            for (int i = 0; i <= rand; i++)
+            {
+                if (keys2.hasNext()){
+                    Object key = keys2.next();
+                    maxK = key.toString();
+                    type = maxK;
+                }
+            }
         }
         else
             type = "体育";
 
-        System.out.println("in RecommendFragment.init "+type);
+        System.out.println("in RecommendFragment.init "+type + " size = "+size+" times= "+maxV);
 
     }
 
@@ -350,6 +360,31 @@ public class RecommendFragment extends Fragment implements NewsAdapter.CallBack,
 
     private void LoadNews()
     {
+        init();
+
+        while (typeNewsTotal - typeNewsWatched <= 2 * newsCount) {
+            int startDay = Integer.parseInt(startDate.substring(8, 10));
+            int startMon = Integer.parseInt(startDate.substring(5, 7));
+            if (startDay-- == 1) {
+                startDay = 31;
+                startMon -= 1;
+            }
+            if (startMon == 0)
+                startMon = 12;
+            //System.out.println(starttime);
+            int endDay = Integer.parseInt(endDate.substring(8, 10));
+            int endMon = Integer.parseInt(endDate.substring(5, 7));
+            if (endDay-- == 1) {
+                endDay = 31;
+                endMon -= 1;
+            }
+            if (endMon == 0)
+                endMon = 12;
+            startDate = startDate.substring(0, 5) + String.format("%0"+2+"d", startMon) + '-' +String.format("%0"+2+"d", startDay);
+            endDate = endDate.substring(0, 5) + String.format("%0"+2+"d", endMon) + '-' + String.format("%0"+2+"d", endDay);
+            setUrl(2000);
+            initNews();
+        }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //newsListCache.clear();
         newsList.clear();
